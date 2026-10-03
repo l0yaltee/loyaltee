@@ -1,0 +1,78 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  themeColor: string;
+  favicon: string;
+  /** sessionStorage key: the intro plays once per tab session, not on every navigation. */
+  introKey: string;
+}
+
+const { title, description, themeColor, favicon, introKey } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content={themeColor} />
+    <meta name="color-scheme" content="dark" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={favicon} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <slot name="head" />
+    <script is:inline define:vars={{ introKey }}>
+      try {
+        if (sessionStorage.getItem(introKey)) document.documentElement.dataset.intro = 'off';
+        else sessionStorage.setItem(introKey, '1');
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <slot />
+    <script>
+      // Mobile menu: any header with [data-menu] gets a toggle + panel.
+      document.querySelectorAll<HTMLElement>('[data-menu]').forEach((header) => {
+        const toggle = header.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+        const panel = header.querySelector<HTMLElement>('[data-menu-panel]');
+        if (!toggle || !panel) return;
+        const set = (open: boolean) => {
+          header.toggleAttribute('data-open', open);
+          toggle.setAttribute('aria-expanded', String(open));
+          toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        };
+        toggle.addEventListener('click', () => set(!header.hasAttribute('data-open')));
+        panel.addEventListener('click', (e) => {
+          if ((e.target as HTMLElement).closest('a')) set(false);
+        });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && header.hasAttribute('data-open')) {
+            set(false);
+            toggle.focus();
+          }
+        });
+        matchMedia('(min-width: 1001px)').addEventListener('change', (e) => e.matches && set(false));
+      });
+
+      // "Replay intro": re-insert the intro node so its CSS animations restart.
+      document.querySelectorAll<HTMLButtonElement>('[data-replay-intro]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const intro = document.querySelector<HTMLElement>('[data-intro-el]');
+          if (!intro) return;
+          document.documentElement.dataset.intro = 'replay';
+          const fresh = intro.cloneNode(true);
+          intro.replaceWith(fresh);
+          window.scrollTo({ top: 0 });
+        });
+      });
+    </script>
+  </body>
+</html>

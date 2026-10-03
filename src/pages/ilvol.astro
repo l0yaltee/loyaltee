@@ -1,0 +1,354 @@
+---
+import '@fontsource/big-shoulders-display/700';
+import '@fontsource/big-shoulders-display/800';
+import '@fontsource/big-shoulders-display/900';
+import '@fontsource/press-start-2p/400';
+import '@fontsource-variable/inter';
+import '@fontsource/jetbrains-mono/400';
+import '@fontsource/jetbrains-mono/500';
+import '../styles/ilvol.css';
+
+import Base from '../layouts/Base.astro';
+import WindowsLogo from '../components/WindowsLogo.astro';
+import MsStoreBadge from '../components/MsStoreBadge.astro';
+import MenuButton from '../components/MenuButton.astro';
+import { links, ilvolApp } from '../config';
+import {
+  heroFields, confFields, steps, fieldNames, team, accents,
+  soloPlans, teamPlans, faqs, introBars, orbBars, bigBars, type Plan,
+} from '../data/ilvol';
+
+const planGroups: { id: string; label: string; plans: Plan[] }[] = [
+  { id: 'solo', label: 'For you', plans: soloPlans },
+  { id: 'team', label: 'For teams', plans: teamPlans },
+];
+const year = new Date().getFullYear();
+---
+
+<Base
+  title="IlvolAI — broker calls to driver-ready loads"
+  description="IlvolAI listens to your broker call, fills in pickup, stops, delivery, rate and weight as they talk, and hands you a clean message for your driver. For Windows."
+  themeColor="#0e1216"
+  favicon="/favicon-ilvol.svg"
+  introKey="ilvol-intro"
+>
+  <div class="page">
+    <div class="intro" data-intro-el aria-hidden="true">
+      <div class="intro-word">
+        {['i', 'l', 'v', 'o', 'l'].map((c, i) => <span style={`animation-delay:${0.05 + i * 0.05}s`}>{c}</span>)}
+        <span class="ai" style="animation-delay:.34s">A</span><span class="ai" style="animation-delay:.39s">I</span>
+      </div>
+      <div class="intro-wave">
+        {introBars.map((b) => <i style={`--h:${b.h};animation-delay:${b.d}s`}></i>)}
+      </div>
+      <div class="intro-line"><b></b></div>
+    </div>
+
+    <header class="header" data-menu>
+      <div class="wrap header__bar">
+        <div class="brand">
+          <a class="brand__parent" href={links.loyaltee} aria-label="Loyaltee home">LOYALTEE<span>.</span></a>
+          <span class="brand__sep" aria-hidden="true"></span>
+          <a class="wordmark" href="#top">ilvol<span>AI</span></a>
+        </div>
+        <nav class="navlinks" aria-label="Main">
+          <a href="#how">How it works</a>
+          <a href="#features">Features</a>
+          <a href="#plans">Plans</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <div class="header__actions">
+          <a class="btn-nav" href="#download"><WindowsLogo />Download</a>
+          <MenuButton controls="ilvol-menu" />
+        </div>
+      </div>
+      <nav class="menu-panel" id="ilvol-menu" aria-label="Mobile" data-menu-panel>
+        <a href="#how">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#plans">Plans</a>
+        <a href="#faq">FAQ</a>
+        <a class="menu-panel__parent" href={links.loyaltee}>← LOYALTEE.</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section id="top" class="wrap hero">
+        <div class="hero-grid">
+          <div class="hero-copy reveal" style="--d:.05s">
+            <div class="pill-live"><span class="livedot"></span>For dispatchers booking US freight from Uzbekistan</div>
+            <h1 class="display">Hear the load.<br /><span>Send the load.</span></h1>
+            <p class="hero-lede">IlvolAI listens to your broker call, writes down pickup, stops, delivery, rate and weight while the broker talks, and hands you a clean message for your driver. Shows how sure it is about every field.</p>
+            <div class="cta-row">
+              <a class="btn-dl" href={links.download}>
+                <WindowsLogo size={26} />
+                <span class="btn-dl__text"><b>Download for Windows</b><small class="mono">v{ilvolApp.version} · Windows 10/11 · x64</small></span>
+              </a>
+              <MsStoreBadge />
+            </div>
+            <div class="hero-facts">
+              <span>Free plan: 10 loads a month</span><span>No card to start</span><span>Pay in so'm with Payme or Click</span>
+            </div>
+          </div>
+
+          <div class="mock-wrap reveal" style="--d:.2s">
+            <div class="glass mock">
+              <div class="mock__top">
+                <div class="mock__dots" aria-hidden="true"><i></i><i></i><i></i></div>
+                <span class="mock__status"><span class="livedot"></span>Listening · System audio</span>
+              </div>
+              <div class="mock__live">
+                <div class="orb" aria-hidden="true">
+                  <div class="orb-glow"></div><div class="orb-ring"></div>
+                  <div class="orb-core">
+                    {orbBars.map((b) => <span class="bar" style={`height:${b.h}px;animation-delay:${b.d}s`}></span>)}
+                  </div>
+                </div>
+                <p class="mock__transcript">“…so it picks up in <b>Amarillo, Texas</b> Tuesday at eight, it's a <b>reefer</b>, frozen chicken, forty-three thousand pounds, delivers <b>Tulsa</b> Thursday six a.m., I can do <b>two-eighty a mile</b>…”<span class="caret" aria-hidden="true"></span></p>
+              </div>
+              <div class="mock__fields">
+                {heroFields.map((f) => (
+                  <div class:list={['fc', f.review ? 'review' : 'filled']}>
+                    <div class="fc-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={f.icon}></path></svg></div>
+                    <div class="fc-body"><div class="fc-lab">{f.label}</div><div class="fc-val">{f.value}</div></div>
+                    <span class:list={['conf', f.tier]}>{f.pct}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div class="glass driver-msg">
+              <div class="driver-msg__head"><span>Message for driver</span><span class="driver-msg__copied">Copied</span></div>
+              <pre class="mono">LOAD DETAILS
+Pickup: Amarillo, TX — Tue 6/24, 8:00 AM
+Delivery: Tulsa, OK — Thu 6/26, 6:00 AM
+Rate: $2.80/mile ($2,100 total)
+Equipment: Reefer · 43,000 lbs</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WORKS WITH -->
+      <section class="works" aria-label="Works with">
+        <div class="wrap">
+          <span class="works__label">Captures calls from the apps you already dial with</span>
+          <div class="works__list"><span>RingCentral</span><span>Zoom</span><span>Microsoft Teams</span><span>Any mic</span></div>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section id="how" class="wrap how">
+        <div class="section-head">
+          <span class="eyebrow">How it works</span>
+          <h2 class="display h2">One call. Three moves.</h2>
+        </div>
+        <div class="steps">
+          {steps.map((s) => (
+            <article class="glass step">
+              <div class="step__top"><span class="display step__n">{s.n}</span><span class="mono tag">{s.tag}</span></div>
+              <h3>{s.title}</h3>
+              <p class="card-text">{s.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- FEATURES -->
+      <section id="features" class="wrap features">
+        <div class="section-head">
+          <span class="eyebrow">Features</span>
+          <h2 class="display h2">Built for the dispatch desk, not the meeting room.</h2>
+        </div>
+        <div class="feat">
+          <article class="glass feat-card feat-card--big span3">
+            <div class="chips">
+              <span class="chip chip--tint"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"></rect><path d="M5 10a7 7 0 0 0 14 0M12 17v5"></path></svg>Microphone</span>
+              <span class="chip chip--solid"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"></rect><path d="M8 21h8M12 17v4"></path></svg>System audio</span>
+            </div>
+            <h3>Mic or system audio</h3>
+            <p>Repeat the details into your mic, or let IlvolAI hear the broker directly from RingCentral, Zoom or Teams. Live transcription starts in seconds.</p>
+          </article>
+          <article class="glass feat-card feat-card--big span3">
+            <div class="mono field-names">{fieldNames.map((n) => <span>{n}</span>)}</div>
+            <h3>16 load fields, multi-stop included</h3>
+            <p>Pickup and delivery windows, live unload or drop and hook, trailer instructions, lumpers. A load with four stops comes out as four stops.</p>
+          </article>
+          <article class="glass feat-card span2">
+            <div class="orbit" aria-hidden="true">
+              <i style="width:44px;height:44px;background:#995fff;box-shadow:0 0 0 8px rgba(153,95,255,.15)"></i>
+              <i style="width:14px;height:14px;background:#bea5ff"></i>
+              <i style="width:10px;height:10px;background:#ab86ff"></i>
+              <i style="width:7px;height:7px;background:#7949cc"></i>
+            </div>
+            <h3>A widget that floats over your calls</h3>
+            <p>Start and stop capture from a small orb above your other windows. Each captured field orbits it as a chip.</p>
+          </article>
+          <article class="glass feat-card span2">
+            <div class="mini-chart" aria-hidden="true">
+              {[[40, 0.35], [62, 0.5], [48, 0.5], [80, 0.7], [100, 1]].map(([h, a]) => <i style={`height:${h}%;background:rgba(153,95,255,${a})`}></i>)}
+            </div>
+            <h3>History and your numbers</h3>
+            <p>Every load you captured, searchable, with stats on lanes, equipment and rates.</p>
+          </article>
+          <article class="glass feat-card span2">
+            <div class="avatars" aria-hidden="true">{team.map((t) => <span style={`background:${t.bg}`}>{t.i}</span>)}</div>
+            <h3>Team console</h3>
+            <p>Add dispatchers, share one pooled load quota, and see who captured what.</p>
+          </article>
+          <article class="glass feat-card feat-card--row span4">
+            <div>
+              <h3>Your colour, your desk</h3>
+              <p>The app opens in IlvolAI violet. Switch the accent to any of eight presets or type your own hex.</p>
+            </div>
+            <div class="swatches">{accents.map(([label, hex]) => <span title={label} style={`background:${hex}`}></span>)}</div>
+          </article>
+          <article class="glass feat-card span2">
+            <div class="pay-logos"><span>Payme</span><span>Click</span></div>
+            <h3>Pay in so'm</h3>
+            <p>Subscribe or top up with Payme or Click. Your plan updates by itself once the payment clears.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- CONFIDENCE -->
+      <section class="wrap confidence">
+        <div class="conf-row">
+          <div class="conf-copy">
+            <span class="eyebrow">Confidence on every field</span>
+            <h2 class="display h2">It tells you what to double-check.</h2>
+            <p>Broker speech is fast and messy. Every field gets a percentage. Anything under 70% is flagged for review before it reaches your driver, and every value stays editable.</p>
+            <div class="conf-legend">
+              <span class="conf hi">80–100% · solid</span>
+              <span class="conf med">50–79% · check it</span>
+              <span class="conf lo">under 50% · ask again</span>
+            </div>
+          </div>
+          <div class="conf-list">
+            {confFields.map((f) => (
+              <div class:list={['fc', 'fc--lg', f.review ? 'review' : 'filled']}>
+                <div class="fc-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={f.icon}></path></svg></div>
+                <div class="fc-body"><div class="fc-lab">{f.label}</div><div class="fc-val">{f.value}</div></div>
+                <span class:list={['conf', f.tier]}>{f.pct}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- PLANS -->
+      <section id="plans" class="plans-section">
+        <div class="wrap">
+          <div class="plans-head">
+            <div class="section-head">
+              <span class="eyebrow">Plans</span>
+              <h2 class="display h2">Priced in so'm. Counted in loads.</h2>
+            </div>
+            <div class="tabs" role="tablist" aria-label="Plan type" data-plan-tabs>
+              {planGroups.map((g, i) => (
+                <button type="button" role="tab" id={`tab-${g.id}`} aria-controls={`plans-${g.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{g.label}</button>
+              ))}
+            </div>
+          </div>
+          {planGroups.map((g, i) => (
+            <div class="plans" id={`plans-${g.id}`} role="tabpanel" aria-labelledby={`tab-${g.id}`} style={`--cols:${g.plans.length}`} hidden={i !== 0}>
+              {g.plans.map((p) => (
+                <article class:list={['plan', { 'plan--popular': p.popular }]}>
+                  {p.popular && <span class="plan__badge">Most popular</span>}
+                  <div class="plan__name"><span class="display">{p.name}</span><small>{p.tagline}</small></div>
+                  <div class="plan__price"><span class="display">{p.price}</span><small class="mono">{p.per}</small></div>
+                  <ul>
+                    {p.features.map((ft) => (
+                      <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ab86ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>{ft}</li>
+                    ))}
+                  </ul>
+                  <a class="plan__cta" href="#download">{p.cta}</a>
+                </article>
+              ))}
+            </div>
+          ))}
+          <p class="plans-hint" aria-hidden="true">Swipe to see every plan →</p>
+          <p class="plans-note">Upgrade any time and pay the new plan's full price. A downgrade waits until the end of the period you already paid for.</p>
+        </div>
+      </section>
+
+      <!-- DOWNLOAD -->
+      <section id="download" class="wrap download">
+        <div class="download__card">
+          <div class="download__bars" aria-hidden="true">{bigBars.map((h) => <i style={`height:${h}px`}></i>)}</div>
+          <span class="download__eyebrow">Download</span>
+          <h2 class="display">Your next call is the first test.</h2>
+          <p class="download__lede">Install IlvolAI, sign up, and capture ten loads a month on the free plan. Updates install themselves.</p>
+          <div class="cta-row">
+            <a class="btn-dark" href={links.download}>
+              <WindowsLogo size={26} color="#bea5ff" />
+              <span class="btn-dl__text"><b>Download for Windows</b><small class="mono">IlvolAI {ilvolApp.version} installer</small></span>
+            </a>
+            <MsStoreBadge />
+          </div>
+          <div class="mono download__reqs">
+            <span>Windows 10 or 11, 64-bit</span><span>Internet connection</span><span>Headset or mic</span><span>macOS: later</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" class="wrap faq-section">
+        <div class="section-head"><span class="eyebrow">FAQ</span><h2 class="display">Before you install</h2></div>
+        <div class="faq">
+          {faqs.map((q) => (
+            <div class="faq__item"><h3>{q.q}</h3><p class="card-text">{q.a}</p></div>
+          ))}
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap">
+        <div class="foot">
+          <div class="foot__brand">
+            <span class="wordmark">ilvol<span>AI</span></span>
+            <p>Broker calls in, driver-ready loads out. Built for dispatchers in Uzbekistan working US lanes.</p>
+          </div>
+          <div class="foot__cols">
+            <div class="foot__col"><b>Product</b><a href="#features">Features</a><a href="#plans">Plans</a><a href="#download">Download</a></div>
+            <div class="foot__col"><b>Company</b><a href="#faq">FAQ</a><a href={links.privacy}>Privacy</a><a href={links.terms}>Terms</a></div>
+          </div>
+        </div>
+        <p class="legal">System audio capture may be subject to call-recording laws. You are responsible for ensuring all parties consent.</p>
+        <div class="foot__bottom">
+          <span>© {year} IlvolAI · a <a href={links.loyaltee}>Loyaltee</a> product</span>
+          <button type="button" class="link-btn" data-replay-intro>Replay intro</button>
+        </div>
+      </div>
+    </footer>
+  </div>
+</Base>
+
+<script>
+  // Plan type tabs (For you / For teams), with arrow-key support per the ARIA tabs pattern.
+  const tablist = document.querySelector<HTMLElement>('[data-plan-tabs]');
+  if (tablist) {
+    const tabs = [...tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const select = (tab: HTMLButtonElement) => {
+      for (const t of tabs) {
+        const on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(t.getAttribute('aria-controls')!);
+        if (panel) {
+          panel.hidden = !on;
+          if (on) panel.scrollLeft = 0;
+        }
+      }
+    };
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(tab));
+      tab.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+        select(next);
+        next.focus();
+      });
+    });
+  }
+</script>

@@ -1,0 +1,39 @@
+---
+// Hamburger toggle for headers marked [data-menu]; behaviour lives in Base.astro.
+interface Props { controls: string; class?: string }
+const { controls, class: className } = Astro.props;
+---
+<button type="button" class:list={['menu-btn', className]} data-menu-toggle aria-expanded="false" aria-controls={controls} aria-label="Open menu">
+  <span></span><span></span><span></span>
+</button>
+
+<style>
+  .menu-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    flex: none;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    color: inherit;
+  }
+  .menu-btn span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: currentColor;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  :global([data-open]) .menu-btn span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  :global([data-open]) .menu-btn span:nth-child(2) { opacity: 0; }
+  :global([data-open]) .menu-btn span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  @media (max-width: 1000px) {
+    .menu-btn { display: inline-flex; }
+  }
+</style>

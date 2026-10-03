@@ -1,0 +1,313 @@
+---
+import '@fontsource/big-shoulders-display/700';
+import '@fontsource/big-shoulders-display/800';
+import '@fontsource/big-shoulders-display/900';
+import '@fontsource/press-start-2p/400';
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/inter';
+import '@fontsource/jetbrains-mono/500';
+import '../styles/loyaltee.css';
+
+import { getImage } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import MsStoreBadge from '../components/MsStoreBadge.astro';
+import MenuButton from '../components/MenuButton.astro';
+import heroTruck from '../assets/hero-truck.png';
+import { links, contact } from '../config';
+import { stages, ticker, principles, audiences, roles, bars } from '../data/loyaltee';
+
+const [heroLg, heroSm] = await Promise.all([
+  getImage({ src: heroTruck, width: 1600, format: 'webp', quality: 78 }),
+  getImage({ src: heroTruck, width: 820, format: 'webp', quality: 74 }),
+]);
+const year = new Date().getFullYear();
+const arrowUpRight = 'M7 17 17 7M8 7h9v9';
+---
+
+<Base
+  title="Loyaltee — logistics, made easier"
+  description="Loyaltee automates the everyday work behind logistics, so carriers, brokers and dispatchers spend less time chasing updates and more time moving freight."
+  themeColor="#10002b"
+  favicon="/favicon-loyaltee.svg"
+  introKey="loyaltee-intro"
+>
+  <link slot="head" rel="preload" as="image" href={heroLg.src} />
+  <div class="page">
+    <div class="lt" data-intro-el aria-hidden="true">
+      <div class="sh sh-t"></div>
+      <div class="sh sh-b"></div>
+      <div class="lt-stage">
+        <div class="road"><div class="plane"><div class="lane"></div></div></div>
+        <div class="lights"><i></i><i></i></div>
+        <div class="type"><b>LOYALTEE.</b><s></s></div>
+        <div class="lt-sub">Route loading</div>
+      </div>
+    </div>
+
+    <header class="header" data-menu>
+      <div class="wrap header__bar">
+        <a href="#top" class="px logo">LOYALTEE<span>.</span></a>
+        <nav class="navl" aria-label="Main">
+          <a href="#flow">The flow</a>
+          <a href="#products">Products</a>
+          <a href="#who">Who it's for</a>
+          <a href="#founder">Founder</a>
+          <a class="ilvol-pill" href={links.ilvol}><i class="blink"></i>ilvol<b>AI</b></a>
+        </nav>
+        <div class="header__actions">
+          <a class="btn btn-ghost btn-touch" href="#contact">Get in touch
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d={arrowUpRight}></path></svg></a>
+          <MenuButton controls="loyaltee-menu" />
+        </div>
+      </div>
+      <nav class="menu-panel" id="loyaltee-menu" aria-label="Mobile" data-menu-panel>
+        <a href="#flow">The flow</a>
+        <a href="#products">Products</a>
+        <a href="#who">Who it's for</a>
+        <a href="#founder">Founder</a>
+        <a href="#contact">Get in touch</a>
+        <a class="ilvol-pill" href={links.ilvol}><i class="blink"></i>ilvol<b>AI</b></a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section id="top" class="hero" style={`--hero-lg:url(${heroLg.src});--hero-sm:url(${heroSm.src})`}>
+        <div class="hero-img" aria-hidden="true"></div>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="scan" aria-hidden="true"></div>
+        <div class="hud hide-md" aria-hidden="true" style="right:6%;top:18%"><span class="px">Status update</span><b>Sent to broker · on time</b></div>
+        <div class="hud hide-md" aria-hidden="true" style="right:22%;bottom:22%"><span class="px">Next check call</span><b>Handled automatically</b></div>
+        <div class="wrap hero__content">
+          <p class="px hero__kicker in"><i></i>Logistics, made easier</p>
+          <h1 class="display in" style="--d:.1s">Move faster.<br /><span>Work smarter.</span></h1>
+          <p class="lede in" style="--d:.25s">Loyaltee automates the everyday work behind logistics, so carriers, brokers and dispatchers spend less time chasing updates and more time moving freight.</p>
+          <div class="cta-row in" style="--d:.35s">
+            <a class="btn btn-solid" href="#products">See our products
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+            <a class="btn btn-ghost" href="#flow">How we think about it</a>
+          </div>
+        </div>
+        <div class="ticker-band" aria-hidden="true">
+          <div class="ticker px">
+            {ticker.map((t) => <span><i style={`background:${t.c}`}></i>{t.s}</span>)}
+          </div>
+        </div>
+      </section>
+
+      <!-- THE FLOW -->
+      <section id="flow" class="wrap flow-section">
+        <div class="head-row">
+          <div class="section-head">
+            <span class="px kicker">/ The flow</span>
+            <h2 class="display h2">Every load runs the same road.</h2>
+          </div>
+          <p class="lede">Pick a stop to see where time leaks out of a load's life, and what Loyaltee takes off your plate there.</p>
+        </div>
+        <div class="flow-scroll" data-flow-scroll>
+          <div class="flow-track">
+            <div class="flow-road" aria-hidden="true"></div>
+            <div class="flow" role="tablist" aria-label="Stages of a load" data-flow>
+              {stages.map((s, i) => (
+                <button type="button" class="stop" role="tab" id={`stop-${i}`} aria-controls={`stage-${i}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+                  <span class="stop__node"><span class="px">0{i + 1}</span></span>
+                  <span class="stop__label">
+                    <span class="stop__name">{s.name}</span>
+                    {s.ilvol && <span class="ilvol-tag">ilvolAI</span>}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+        {stages.map((s, i) => (
+          <div class="box flow-panel" id={`stage-${i}`} role="tabpanel" aria-labelledby={`stop-${i}`} hidden={i !== 0}>
+            <div class="flowpanel">
+              <div><span class="px kicker label-md">Stop 0{i + 1} · {s.name}</span><h3 class="display">{s.head}</h3></div>
+              <div><span class="px label-sm" style="color:var(--muted)">Where the time goes</span><p>{s.pain}</p></div>
+              <div class="fix">
+                <span class="px kicker label-sm">With Loyaltee</span><p>{s.fix}</p>
+                {s.ilvol && <a href={links.ilvol}>Done here by ilvolAI →</a>}
+              </div>
+            </div>
+          </div>
+        ))}
+      </section>
+
+      <!-- APPROACH -->
+      <section class="band approach">
+        <div class="wrap">
+          <div class="head-row">
+            <div class="section-head">
+              <span class="px kicker">/ The Loyaltee approach</span>
+              <h2 class="display h2">Reliable by design.</h2>
+            </div>
+            <p class="lede">Helpful technology should feel like a capable teammate, not another system to manage.</p>
+          </div>
+          <div class="grid3">
+            {principles.map((p) => (
+              <article class="principle">
+                <div class="pixels" aria-hidden="true">{p.px.map((c) => <i style={`background:${c}`}></i>)}</div>
+                <h3>{p.t}</h3>
+                <p>{p.b}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- PRODUCTS -->
+      <section id="products" class="wrap products">
+        <div class="section-head">
+          <span class="px kicker">/ Products</span>
+          <h2 class="display h2">Tools that ride along.</h2>
+        </div>
+        <div class="prod">
+          <div class="ilvol">
+            <div class="ilvol__grid">
+              <div class="ilvol__copy">
+                <span class="ilvol__avail"><i></i>Available now · Windows</span>
+                <span class="ilvol__mark">ilvol<span>AI</span></span>
+                <p>Listens to your broker call, fills in the load as they talk, and hands you a clean message for your driver. Every field shows how sure it is.</p>
+                <div class="ilvol__ctas">
+                  <a class="btn-ilvol" href={links.ilvol}>Visit ilvolAI<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d={arrowUpRight}></path></svg></a>
+                  <MsStoreBadge compact />
+                </div>
+              </div>
+              <div class="ilvol__demo" aria-label="Example capture">
+                <div class="ilvol__live">
+                  <div class="mini-orb" aria-hidden="true">{bars.map((b) => <span class="bar" style={`height:${b.h}px;animation-delay:${b.d}s`}></span>)}</div>
+                  <p>“…Chicago to Dallas, dry van, Thursday morning, forty-four thousand…”</p>
+                </div>
+                <div class="fc"><div><div class="fc-l">Pickup</div><div class="fc-v">Chicago, IL · Thu 08:00</div></div><span class="conf">97%</span></div>
+                <div class="fc"><div><div class="fc-l">Delivery</div><div class="fc-v">Dallas, TX</div></div><span class="conf">95%</span></div>
+                <div class="fc"><div><div class="fc-l">Equipment</div><div class="fc-v">Dry Van · 44,000 lbs</div></div><span class="conf">99%</span></div>
+                <div class="fc review"><div><div class="fc-l">Rate · Needs review</div><div class="fc-v">$2,650</div></div><span class="conf">68%</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="next-tool">
+            <div>
+              <span class="px kicker label-md">Next on the road</span>
+              <h3 class="display">In the shop.</h3>
+              <p>The next Loyaltee tool is being built with the same people ilvolAI was built for. Tell us which part of your day you'd automate first.</p>
+            </div>
+            <a class="btn btn-ghost" href="#contact">Suggest a tool</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- WHO IT'S FOR -->
+      <section id="who" class="band who">
+        <div class="wrap">
+          <div class="section-head">
+            <span class="px kicker">/ Who it's for</span>
+            <h2 class="display h2">Four seats. One desk.</h2>
+          </div>
+          <div class="grid4">
+            {audiences.map((a) => (
+              <article class="box aud">
+                <span class="px kicker label-md">{a.label}</span>
+                <h3>{a.title}</h3>
+                <p>{a.body}</p>
+                <ul>{a.items.map((i) => <li>{i}</li>)}</ul>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- FOUNDER -->
+      <section id="founder" class="wrap founder-section">
+        <div class="founder">
+          <div>
+            <span class="px kicker">/ About the founder</span>
+            <h2 class="display">Built by someone who knows the flow.</h2>
+            <ol class="roles" aria-label="Roles before Loyaltee">
+              {roles.map((r, i) => (
+                <li><span>{r}</span>{i < roles.length - 1 && <span class="arrow" aria-hidden="true">→</span>}</li>
+              ))}
+            </ol>
+          </div>
+          <div>
+            <p class="quote">“I'm Biloliddin Sodiqjonov. Before Loyaltee, I worked across logistics as an updater, update manager, dispatcher and broker. I saw where time was lost, and how much faster every flow could be.”</p>
+            <p class="lede">Loyaltee comes from that firsthand experience: practical automation for the people doing the work every day.</p>
+            <div class="signature"><span aria-hidden="true">BS</span><span><b>Biloliddin Sodiqjonov</b><small>Founder, Loyaltee</small></span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="contact">
+        <div class="contact__lane" aria-hidden="true"></div>
+        <div class="wrap">
+          <div class="section-head">
+            <span class="px">/ Let's connect</span>
+            <h2 class="display">Make logistics<br />feel lighter.</h2>
+          </div>
+          <div class="contact__list">
+            <a href={`mailto:${contact.email}`}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16"></rect><path d="m22 6-10 7L2 6"></path></svg>{contact.email}</a>
+            <a href={`https://t.me/${contact.telegram}`}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg>t.me/{contact.telegram}</a>
+            {contact.phone && (
+              <a href={`tel:${contact.phone.replace(/[^+\d]/g, '')}`}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"></path></svg>{contact.phone}</a>
+            )}
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap">
+        <div class="foot">
+          <div class="foot__brand">
+            <span class="px logo">LOYALTEE<span>.</span></span>
+            <p>Automation for the people moving things forward.</p>
+          </div>
+          <div class="foot__cols">
+            <div class="foot__col"><span class="px">Company</span><a href="#flow">The flow</a><a href="#founder">Founder</a><a href="#contact">Contact</a></div>
+            <div class="foot__col"><span class="px">Products</span><a href={links.ilvol}>ilvolAI</a><a href={links.store}>Microsoft Store</a></div>
+          </div>
+        </div>
+        <div class="foot__bottom">
+          <span>© {year} Loyaltee</span>
+          <button type="button" class="px link-btn" data-replay-intro>Replay intro ▸</button>
+        </div>
+      </div>
+    </footer>
+  </div>
+</Base>
+
+<script>
+  // "The flow": six stops as ARIA tabs. Stops before the selected one read as done.
+  const list = document.querySelector<HTMLElement>('[data-flow]');
+  const scroller = document.querySelector<HTMLElement>('[data-flow-scroll]');
+  if (list) {
+    const stops = [...list.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const select = (idx: number, focus = false) => {
+      stops.forEach((s, i) => {
+        const on = i === idx;
+        s.setAttribute('aria-selected', String(on));
+        s.tabIndex = on ? 0 : -1;
+        s.classList.toggle('done', i < idx);
+        const panel = document.getElementById(s.getAttribute('aria-controls')!);
+        if (panel) panel.hidden = !on;
+      });
+      const stop = stops[idx];
+      if (focus) stop.focus({ preventScroll: true });
+      // On narrow screens the stops scroll sideways; keep the picked one in view.
+      if (scroller && scroller.scrollWidth > scroller.clientWidth) {
+        const left = stop.offsetLeft - (scroller.clientWidth - stop.offsetWidth) / 2;
+        scroller.scrollTo({ left, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      }
+    };
+    stops.forEach((s, i) => {
+      s.addEventListener('click', () => select(i));
+      s.addEventListener('keydown', (e) => {
+        const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+        if (step === undefined) return;
+        e.preventDefault();
+        select((i + step + stops.length) % stops.length, true);
+      });
+    });
+  }
+</script>
