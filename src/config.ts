@@ -4,7 +4,7 @@ export const links = {
   loyaltee: '/',
   // Direct installer link. Until it exists the buttons scroll to the download section.
   download: '#download',
-  store: 'https://apps.microsoft.com/search?query=IlvolAI',
+  store: 'https://apps.microsoft.com/detail/9ndxf2hchddv',
   privacy: 'https://tusiipxekbfheihjrjbd.supabase.co/storage/v1/object/public/legal/privacy-policy.txt',
   terms: 'https://tusiipxekbfheihjrjbd.supabase.co/storage/v1/object/public/legal/terms-of-service.txt',
 };
