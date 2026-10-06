@@ -13,6 +13,8 @@ import WindowsLogo from '../components/WindowsLogo.astro';
 import MsStoreBadge from '../components/MsStoreBadge.astro';
 import MenuButton from '../components/MenuButton.astro';
 import { links, ilvolApp } from '../config';
+import displayFont from '@fontsource/big-shoulders-display/files/big-shoulders-display-latin-800-normal.woff2?url';
+import bodyFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import {
   heroFields, confFields, steps, fieldNames, team, accents,
   soloPlans, teamPlans, faqs, introBars, orbBars, bigBars, type Plan,
@@ -32,6 +34,10 @@ const year = new Date().getFullYear();
   favicon="/favicon-ilvol.svg"
   introKey="ilvol-intro"
 >
+  <Fragment slot="head">
+    <link rel="preload" as="font" type="font/woff2" href={displayFont} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={bodyFont} crossorigin />
+  </Fragment>
   <div class="page">
     <div class="intro" data-intro-el aria-hidden="true">
       <div class="intro-word">
@@ -75,7 +81,7 @@ const year = new Date().getFullYear();
       <!-- HERO -->
       <section id="top" class="wrap hero">
         <div class="hero-grid">
-          <div class="hero-copy reveal" style="--d:.05s">
+          <div class="hero-copy">
             <div class="pill-live"><span class="livedot"></span>For dispatchers booking US freight from Uzbekistan</div>
             <h1 class="display">Hear the load.<br /><span>Send the load.</span></h1>
             <p class="hero-lede">IlvolAI listens to your broker call, writes down pickup, stops, delivery, rate and weight while the broker talks, and hands you a clean message for your driver. Shows how sure it is about every field.</p>
@@ -91,7 +97,7 @@ const year = new Date().getFullYear();
             </div>
           </div>
 
-          <div class="mock-wrap reveal" style="--d:.2s">
+          <div class="mock-wrap">
             <div class="glass mock">
               <div class="mock__top">
                 <div class="mock__dots" aria-hidden="true"><i></i><i></i><i></i></div>
