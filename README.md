@@ -44,6 +44,5 @@ The original designs were desktop canvases. On top of them:
 
 ## Still to fill in
 
-- `links.download` in `src/config.ts` — direct installer URL (buttons currently scroll to the download section).
 - `contact.phone` — hidden until set.
 - Team PAYG per-load price in `src/data/ilvol.ts` (shows "On request").
