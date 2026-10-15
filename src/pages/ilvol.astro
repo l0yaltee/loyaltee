@@ -23,6 +23,25 @@ const planGroups: { id: string; label: string; plans: Plan[] }[] = [
   { id: 'team', label: 'For teams', plans: teamPlans },
 ];
 const year = new Date().getFullYear();
+
+// Shade ramp per accent: 400/300 mix toward white, 600 toward black, ink is a near-black of the hue.
+const hexToRgb = (hex: string) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+const mix = (hex: string, to: number, t: number) => hexToRgb(hex).map((c) => Math.round(c * (1 - t) + to * t));
+const toHex = (c: number[]) => '#' + c.map((n) => n.toString(16).padStart(2, '0')).join('');
+// The default accent keeps the hand-tuned design-system tokens from ilvol.css, so switching back is exact.
+const defaultRamp = {
+  '--accent-300': '#bea5ff', '--accent-400': '#ab86ff', '--accent-500': '#995fff', '--accent-600': '#7949cc',
+  '--accent-ink': '#1a0d32', '--accent-hover': '#a571ff', '--accent-rgb': '153, 95, 255',
+};
+const palette = Object.fromEntries(accents.map(([, hex], i) => [hex, i === 0 ? defaultRamp : {
+  '--accent-300': toHex(mix(hex, 255, 0.4)),
+  '--accent-400': toHex(mix(hex, 255, 0.2)),
+  '--accent-500': hex,
+  '--accent-600': toHex(mix(hex, 0, 0.2)),
+  '--accent-ink': toHex(mix(hex, 0, 0.83)),
+  '--accent-hover': toHex(mix(hex, 255, 0.1)),
+  '--accent-rgb': hexToRgb(hex).join(', '),
+}]));
 ---
 
 <Base
@@ -32,6 +51,33 @@ const year = new Date().getFullYear();
   favicon="/favicon-ilvol.svg"
   introKey="ilvol-intro"
 >
+  <script slot="head" is:inline define:vars={{ palette }}>
+    // Accent switcher: the same shade ramp the app derives from one accent colour.
+    var KEY = 'ilvol-accent';
+    function apply(hex) {
+      if (!Object.prototype.hasOwnProperty.call(palette, hex)) return false;
+      var v = palette[hex];
+      var root = document.documentElement.style;
+      for (var k in v) root.setProperty(k, v[k]);
+      return true;
+    }
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    var restored = saved && apply(saved) ? saved : null;
+    document.addEventListener('DOMContentLoaded', function () {
+      var buttons = document.querySelectorAll('[data-accent]');
+      function mark(hex) { buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.accent === hex)); }); }
+      if (restored) mark(restored);
+      buttons.forEach(function (b) {
+        b.addEventListener('click', function () {
+          var hex = b.dataset.accent;
+          if (!apply(hex)) return;
+          mark(hex);
+          try { localStorage.setItem(KEY, hex); } catch (e) {}
+        });
+      });
+    });
+  </script>
   <div class="page">
     <div class="intro" data-intro-el aria-hidden="true">
       <div class="intro-word">
@@ -175,17 +221,17 @@ Equipment: Reefer · 43,000 lbs</pre>
           </article>
           <article class="glass feat-card span2">
             <div class="orbit" aria-hidden="true">
-              <i style="width:44px;height:44px;background:#995fff;box-shadow:0 0 0 8px rgba(153,95,255,.15)"></i>
-              <i style="width:14px;height:14px;background:#bea5ff"></i>
-              <i style="width:10px;height:10px;background:#ab86ff"></i>
-              <i style="width:7px;height:7px;background:#7949cc"></i>
+              <i style="width:44px;height:44px;background:var(--accent-500);box-shadow:0 0 0 8px rgba(var(--accent-rgb),.15)"></i>
+              <i style="width:14px;height:14px;background:var(--accent-300)"></i>
+              <i style="width:10px;height:10px;background:var(--accent-400)"></i>
+              <i style="width:7px;height:7px;background:var(--accent-600)"></i>
             </div>
             <h3>A widget that floats over your calls</h3>
             <p>Start and stop capture from a small orb above your other windows. Each captured field orbits it as a chip.</p>
           </article>
           <article class="glass feat-card span2">
             <div class="mini-chart" aria-hidden="true">
-              {[[40, 0.35], [62, 0.5], [48, 0.5], [80, 0.7], [100, 1]].map(([h, a]) => <i style={`height:${h}%;background:rgba(153,95,255,${a})`}></i>)}
+              {[[40, 0.35], [62, 0.5], [48, 0.5], [80, 0.7], [100, 1]].map(([h, a]) => <i style={`height:${h}%;background:rgba(var(--accent-rgb),${a})`}></i>)}
             </div>
             <h3>History and your numbers</h3>
             <p>Every load you captured, searchable, with stats on lanes, equipment and rates.</p>
@@ -200,7 +246,9 @@ Equipment: Reefer · 43,000 lbs</pre>
               <h3>Your colour, your desk</h3>
               <p>The app opens in IlvolAI violet. Switch the accent to any of eight presets or type your own hex.</p>
             </div>
-            <div class="swatches">{accents.map(([label, hex]) => <span title={label} style={`background:${hex}`}></span>)}</div>
+            <div class="swatches" role="group" aria-label="Accent colour">
+              {accents.map(([label, hex], i) => <button type="button" data-accent={hex} title={label} aria-label={label} aria-pressed={i === 0 ? 'true' : 'false'} style={`--c:${hex}`}></button>)}
+            </div>
           </article>
           <article class="glass feat-card span2">
             <div class="pay-logos"><span>Payme</span><span>Click</span></div>
@@ -258,7 +306,7 @@ Equipment: Reefer · 43,000 lbs</pre>
                   <div class="plan__price"><span class="display">{p.price}</span><small class="mono">{p.per}</small></div>
                   <ul>
                     {p.features.map((ft) => (
-                      <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ab86ff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>{ft}</li>
+                      <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-400)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>{ft}</li>
                     ))}
                   </ul>
                   <a class="plan__cta" href="#download">{p.cta}</a>
@@ -280,7 +328,7 @@ Equipment: Reefer · 43,000 lbs</pre>
           <p class="download__lede">Install IlvolAI, sign up, and capture ten loads a month on the free plan. Updates install themselves.</p>
           <div class="cta-row">
             <a class="btn-dark" href={links.download}>
-              <WindowsLogo size={26} color="#bea5ff" />
+              <WindowsLogo size={26} color="var(--accent-300)" />
               <span class="btn-dl__text"><b>Download for Windows</b><small class="mono">IlvolAI {ilvolApp.version} installer</small></span>
             </a>
             <MsStoreBadge />
