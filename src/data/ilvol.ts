@@ -54,10 +54,10 @@ export const steps = [
 export const fieldNames = ['pickup', 'pickup window', 'stops', 'delivery', 'delivery window', 'commodity', 'equipment', 'rate', 'miles', 'weight', 'trailer', 'notes'];
 
 export const team = [
-  { i: 'AK', bg: '#995fff' },
-  { i: 'DS', bg: '#bea5ff' },
-  { i: 'MT', bg: '#ab86ff' },
-  { i: '+4', bg: '#7949cc' },
+  { i: 'AK', bg: 'var(--accent-500)' },
+  { i: 'DS', bg: 'var(--accent-300)' },
+  { i: 'MT', bg: 'var(--accent-400)' },
+  { i: '+4', bg: 'var(--accent-600)' },
 ];
 
 export const accents = [
