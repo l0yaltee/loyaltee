@@ -106,6 +106,6 @@ export const faqs = [
 ];
 
 const heights = [0.35, 0.6, 0.9, 0.55, 1, 0.7, 0.95, 0.5, 0.8, 0.45, 0.65, 0.3, 0.5];
-export const introBars = heights.map((h, i) => ({ h, d: (0.08 + i * 0.035).toFixed(3) }));
+export const introBars = heights.map((h, i) => ({ h, d: (0.04 + i * 0.02).toFixed(3) }));
 export const orbBars = [10, 18, 26, 34, 22, 38, 28, 20, 30, 16, 10].map((h, i) => ({ h, d: (i * 0.09).toFixed(2) }));
 export const bigBars = [60, 120, 200, 140, 260, 180, 300, 160, 220, 110, 170, 70];

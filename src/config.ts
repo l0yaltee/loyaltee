@@ -2,11 +2,11 @@
 export const links = {
   ilvol: '/ilvol',
   loyaltee: '/',
-  // Direct installer link. Until it exists the buttons scroll to the download section.
-  download: '#download',
-  store: 'https://apps.microsoft.com/search?query=IlvolAI',
-  privacy: 'https://tusiipxekbfheihjrjbd.supabase.co/storage/v1/object/public/legal/privacy-policy.txt',
-  terms: 'https://tusiipxekbfheihjrjbd.supabase.co/storage/v1/object/public/legal/terms-of-service.txt',
+  // Direct installer link: always the newest build, overwritten by the release workflow.
+  download: 'https://api.loyaltee.uz/storage/v1/object/public/releases/latest/ilvolai-setup.exe',
+  store: 'https://apps.microsoft.com/detail/9ndxf2hchddv',
+  privacy: 'https://api.loyaltee.uz/storage/v1/object/public/legal/privacy-policy.txt',
+  terms: 'https://api.loyaltee.uz/storage/v1/object/public/legal/terms-of-service.txt',
 };
 
 export const contact = {
@@ -17,5 +17,5 @@ export const contact = {
 };
 
 export const ilvolApp = {
-  version: '0.5.1',
+  version: '0.5.2',
 };
