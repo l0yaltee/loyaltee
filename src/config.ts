@@ -17,5 +17,5 @@ export const contact = {
 };
 
 export const ilvolApp = {
-  version: '0.5.2',
+  version: '0.8.0',
 };
