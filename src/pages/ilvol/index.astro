@@ -6,20 +6,20 @@ import '@fontsource/press-start-2p/400';
 import '@fontsource-variable/inter';
 import '@fontsource/jetbrains-mono/400';
 import '@fontsource/jetbrains-mono/500';
-import '../styles/ilvol.css';
+import '../../styles/ilvol.css';
 
-import Base from '../layouts/Base.astro';
-import WindowsLogo from '../components/WindowsLogo.astro';
-import MsStoreBadge from '../components/MsStoreBadge.astro';
-import IlvolHeader from '../components/IlvolHeader.astro';
-import IlvolFooter from '../components/IlvolFooter.astro';
-import { links, ilvolApp } from '../config';
+import Base from '../../layouts/Base.astro';
+import WindowsLogo from '../../components/WindowsLogo.astro';
+import MsStoreBadge from '../../components/MsStoreBadge.astro';
+import IlvolHeader from '../../components/IlvolHeader.astro';
+import IlvolFooter from '../../components/IlvolFooter.astro';
+import { links, ilvolApp } from '../../config';
 import displayFont from '@fontsource/big-shoulders-display/files/big-shoulders-display-latin-800-normal.woff2?url';
 import bodyFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import {
   heroFields, confFields, steps, fieldNames, team, accents,
   soloPlans, teamPlans, faqs, introBars, orbBars, bigBars, type Plan,
-} from '../data/ilvol';
+} from '../../data/ilvol';
 
 const planGroups: { id: string; label: string; plans: Plan[] }[] = [
   { id: 'solo', label: 'For you', plans: soloPlans },
