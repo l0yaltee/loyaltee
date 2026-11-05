@@ -6,25 +6,25 @@ import '@fontsource/press-start-2p/400';
 import '@fontsource-variable/inter';
 import '@fontsource/jetbrains-mono/400';
 import '@fontsource/jetbrains-mono/500';
-import '../styles/ilvol.css';
+import '../../styles/ilvol.css';
 
-import Base from '../layouts/Base.astro';
-import WindowsLogo from '../components/WindowsLogo.astro';
-import MsStoreBadge from '../components/MsStoreBadge.astro';
-import MenuButton from '../components/MenuButton.astro';
-import { links, ilvolApp } from '../config';
+import Base from '../../layouts/Base.astro';
+import WindowsLogo from '../../components/WindowsLogo.astro';
+import MsStoreBadge from '../../components/MsStoreBadge.astro';
+import IlvolHeader from '../../components/IlvolHeader.astro';
+import IlvolFooter from '../../components/IlvolFooter.astro';
+import { links, ilvolApp } from '../../config';
 import displayFont from '@fontsource/big-shoulders-display/files/big-shoulders-display-latin-800-normal.woff2?url';
 import bodyFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import {
   heroFields, confFields, steps, fieldNames, team, accents,
   soloPlans, teamPlans, faqs, introBars, orbBars, bigBars, type Plan,
-} from '../data/ilvol';
+} from '../../data/ilvol';
 
 const planGroups: { id: string; label: string; plans: Plan[] }[] = [
   { id: 'solo', label: 'For you', plans: soloPlans },
   { id: 'team', label: 'For teams', plans: teamPlans },
 ];
-const year = new Date().getFullYear();
 
 // Shade ramp per accent: 400/300 mix toward white, 600 toward black, ink is a near-black of the hue.
 const hexToRgb = (hex: string) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
@@ -96,32 +96,7 @@ const palette = Object.fromEntries(accents.map(([, hex], i) => [hex, i === 0 ? d
       <div class="intro-line"><b></b></div>
     </div>
 
-    <header class="header" data-menu>
-      <div class="wrap header__bar">
-        <div class="brand">
-          <a class="brand__parent" href={links.loyaltee} aria-label="Loyaltee home">LOYALTEE<span>.</span></a>
-          <span class="brand__sep" aria-hidden="true"></span>
-          <a class="wordmark" href="#top">ilvol<span>AI</span></a>
-        </div>
-        <nav class="navlinks" aria-label="Main">
-          <a href="#how">How it works</a>
-          <a href="#features">Features</a>
-          <a href="#plans">Plans</a>
-          <a href="#faq">FAQ</a>
-        </nav>
-        <div class="header__actions">
-          <a class="btn-nav" href="#download"><WindowsLogo />Download</a>
-          <MenuButton controls="ilvol-menu" />
-        </div>
-      </div>
-      <nav class="menu-panel" id="ilvol-menu" aria-label="Mobile" data-menu-panel>
-        <a href="#how">How it works</a>
-        <a href="#features">Features</a>
-        <a href="#plans">Plans</a>
-        <a href="#faq">FAQ</a>
-        <a class="menu-panel__parent" href={links.loyaltee}>← LOYALTEE.</a>
-      </nav>
-    </header>
+    <IlvolHeader />
 
     <main>
       <!-- HERO -->
@@ -139,7 +114,7 @@ const palette = Object.fromEntries(accents.map(([, hex], i) => [hex, i === 0 ? d
               <MsStoreBadge />
             </div>
             <div class="hero-facts">
-              <span>Free plan: 10 loads a month</span><span>No card to start</span><span>Pay in so'm with Payme or Click</span>
+              <span>Free plan: 60 talk minutes a month</span><span>No card to start</span><span>Pay in so'm with Payme or Click</span>
             </div>
           </div>
 
@@ -245,7 +220,7 @@ Equipment: Reefer · 43,000 lbs</pre>
           <article class="glass feat-card span2">
             <div class="avatars" aria-hidden="true">{team.map((t) => <span style={`background:${t.bg}`}>{t.i}</span>)}</div>
             <h3>Team console</h3>
-            <p>Add dispatchers, share one pooled load quota, and see who captured what.</p>
+            <p>Add dispatchers, share one pool of talk minutes, and see who captured what.</p>
           </article>
           <article class="glass feat-card feat-card--row span4">
             <div>
@@ -295,7 +270,7 @@ Equipment: Reefer · 43,000 lbs</pre>
           <div class="plans-head">
             <div class="section-head">
               <span class="eyebrow">Plans</span>
-              <h2 class="display h2">Priced in so'm. Counted in loads.</h2>
+              <h2 class="display h2">Priced in so'm. Counted in minutes.</h2>
             </div>
             <div class="tabs" role="tablist" aria-label="Plan type" data-plan-tabs>
               {planGroups.map((g, i) => (
@@ -331,7 +306,7 @@ Equipment: Reefer · 43,000 lbs</pre>
           <div class="download__bars" aria-hidden="true">{bigBars.map((h) => <i style={`height:${h}px`}></i>)}</div>
           <span class="download__eyebrow">Download</span>
           <h2 class="display">Your next call is the first test.</h2>
-          <p class="download__lede">Install IlvolAI, sign up, and capture ten loads a month on the free plan. Updates install themselves.</p>
+          <p class="download__lede">Install IlvolAI, sign up, and get 60 talk minutes a month on the free plan. Updates install themselves.</p>
           <div class="cta-row">
             <a class="btn-dark" href={links.download}>
               <WindowsLogo size={26} color="var(--accent-300)" />
@@ -356,25 +331,7 @@ Equipment: Reefer · 43,000 lbs</pre>
       </section>
     </main>
 
-    <footer class="footer">
-      <div class="wrap">
-        <div class="foot">
-          <div class="foot__brand">
-            <span class="wordmark">ilvol<span>AI</span></span>
-            <p>Broker calls in, driver-ready loads out. Built for dispatchers in Uzbekistan working US lanes.</p>
-          </div>
-          <div class="foot__cols">
-            <div class="foot__col"><b>Product</b><a href="#features">Features</a><a href="#plans">Plans</a><a href="#download">Download</a></div>
-            <div class="foot__col"><b>Company</b><a href="#faq">FAQ</a><a href={links.privacy}>Privacy</a><a href={links.terms}>Terms</a></div>
-          </div>
-        </div>
-        <p class="legal">System audio capture may be subject to call-recording laws. You are responsible for ensuring all parties consent.</p>
-        <div class="foot__bottom">
-          <span>© {year} IlvolAI · a <a href={links.loyaltee}>Loyaltee</a> product</span>
-          <button type="button" class="link-btn" data-replay-intro>Replay intro</button>
-        </div>
-      </div>
-    </footer>
+    <IlvolFooter replay />
   </div>
 </Base>
 

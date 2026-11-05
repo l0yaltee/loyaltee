@@ -1,0 +1,56 @@
+---
+import '@fontsource/big-shoulders-display/700';
+import '@fontsource/big-shoulders-display/800';
+import '@fontsource/big-shoulders-display/900';
+import '@fontsource/press-start-2p/400';
+import '@fontsource-variable/inter';
+import '@fontsource/jetbrains-mono/400';
+import '@fontsource/jetbrains-mono/500';
+import '../../../styles/ilvol.css';
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../../layouts/Base.astro';
+import IlvolHeader from '../../../components/IlvolHeader.astro';
+import IlvolFooter from '../../../components/IlvolFooter.astro';
+import { links } from '../../../config';
+
+const guides = (await getCollection('guides')).sort((a, b) => a.data.order - b.data.order);
+const date = new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeZone: 'UTC' });
+---
+
+<Base
+  title="Guides — IlvolAI"
+  description="Step-by-step how-to guides for IlvolAI, written for dispatchers."
+  themeColor="#0e1216"
+  favicon="/favicon-ilvol.svg"
+  introKey="ilvol-intro"
+  noIntro
+>
+  <div class="page">
+    <IlvolHeader current="guides" />
+    <main class="wrap guides">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href={links.ilvol}>IlvolAI</a><span aria-hidden="true">/</span><span>Guides</span></nav>
+      <div class="section-head">
+        <span class="eyebrow">How-to</span>
+        <h1 class="display h2">Guides</h1>
+        <p class="guides__lede">Short, step-by-step help for dispatchers. No tech background needed.</p>
+      </div>
+      <ul class="guide-cards">
+        {guides.map((g) => (
+          <li>
+            <a class="guide-card glass" href={`${links.guides}/${g.id}`}>
+              <Image class="guide-card__img" src={g.data.hero} alt="" widths={[360, 640]} sizes="(max-width: 700px) 100vw, 380px" />
+              <div class="guide-card__body">
+                {g.data.for && <span class="guide-card__for">For {g.data.for.charAt(0).toLowerCase() + g.data.for.slice(1)}</span>}
+                <h2>{g.data.title}</h2>
+                <p>{g.data.description}</p>
+                <span class="guide-card__meta">Updated {date.format(g.data.updated)}</span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </main>
+    <IlvolFooter />
+  </div>
+</Base>

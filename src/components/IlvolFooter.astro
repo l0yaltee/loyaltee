@@ -1,0 +1,29 @@
+---
+import { links } from '../config';
+
+interface Props { replay?: boolean }
+// The intro lives on the product page only, so only that page offers a replay.
+const { replay = false } = Astro.props;
+const base = replay ? '' : links.ilvol;
+const year = new Date().getFullYear();
+---
+
+    <footer class="footer">
+      <div class="wrap">
+        <div class="foot">
+          <div class="foot__brand">
+            <span class="wordmark">ilvol<span>AI</span></span>
+            <p>Broker calls in, driver-ready loads out. Built for dispatchers in Uzbekistan working US lanes.</p>
+          </div>
+          <div class="foot__cols">
+            <div class="foot__col"><b>Product</b><a href={`${base}#features`}>Features</a><a href={`${base}#plans`}>Plans</a><a href={links.guides}>Guides</a><a href={`${base}#download`}>Download</a></div>
+            <div class="foot__col"><b>Company</b><a href={`${base}#faq`}>FAQ</a><a href={links.privacy}>Privacy</a><a href={links.terms}>Terms</a></div>
+          </div>
+        </div>
+        <p class="legal">System audio capture may be subject to call-recording laws. You are responsible for ensuring all parties consent.</p>
+        <div class="foot__bottom">
+          <span>© {year} IlvolAI · a <a href={links.loyaltee}>Loyaltee</a> product</span>
+          {replay && <button type="button" class="link-btn" data-replay-intro>Replay intro</button>}
+        </div>
+      </div>
+    </footer>

@@ -82,27 +82,24 @@ export interface Plan {
 }
 
 export const soloPlans: Plan[] = [
-  { name: 'Free', tagline: 'Try IlvolAI', price: '0', per: 'UZS · forever', features: ['10 loads / month', '2 captures / day', 'All 16 load fields'], cta: 'Start free' },
-  { name: 'Starter', tagline: 'Solo dispatcher basics', price: '90,000', per: 'UZS / month', features: ['60 loads / month', '6 captures / day', 'Every feature included'], cta: 'Choose Starter' },
-  { name: 'Pro', tagline: 'Full-time dispatcher', price: '240,000', per: 'UZS / month', features: ['150 loads / month', '12 captures / day', 'Every feature included'], cta: 'Choose Pro', popular: true },
-  { name: 'Max', tagline: 'High-volume dispatching', price: '490,000', per: 'UZS / month', features: ['350 loads / month', '30 captures / day', 'Every feature included'], cta: 'Choose Max' },
-  { name: 'Pay as you go', tagline: 'Only pay for what you use', price: '4,000', per: 'UZS / load', features: ['No monthly commitment', 'Top up any time', 'Choose how many loads to buy'], cta: 'Top up' },
+  { name: 'Free', tagline: 'Try IlvolAI', price: '0', per: 'UZS · forever', features: ['60 talk minutes / month', 'All 16 load fields', 'No card to start'], cta: 'Start free' },
+  { name: 'Starter', tagline: 'Solo dispatcher basics', price: '49,000', per: 'UZS / month', features: ['250 talk minutes / month', 'No daily limit', 'Every feature included'], cta: 'Choose Starter' },
+  { name: 'Pro', tagline: 'Full-time dispatcher', price: '99,000', per: 'UZS / month', features: ['500 talk minutes / month', 'No daily limit', 'Every feature included'], cta: 'Choose Pro', popular: true },
+  { name: 'Pay as you go', tagline: 'Only pay for what you use', price: '250', per: 'UZS / minute', features: ['No monthly commitment', 'Packs from 30 minutes, or any amount', 'Minutes never expire'], cta: 'Top up' },
 ];
 
 export const teamPlans: Plan[] = [
-  { name: 'Team Pro', tagline: 'Small dispatch team', price: '250,000', per: 'UZS / seat / month', features: ['160 loads per seat, pooled', '12 captures / day', 'Unlimited team members', 'Admin console'], cta: 'Choose Team Pro', popular: true },
-  { name: 'Team Max', tagline: 'Large dispatch office', price: '500,000', per: 'UZS / seat / month', features: ['360 loads per seat, pooled', '30 captures / day', 'Unlimited team members', 'Admin console'], cta: 'Choose Team Max' },
-  // The design left this rate as a placeholder; set the real per-load price when it's decided.
-  { name: 'Team PAYG', tagline: 'Flexible team billing', price: 'On request', per: 'UZS / load · set per team', features: ['No monthly commitment', 'One pooled balance', 'Unlimited team members'], cta: 'Ask about Team PAYG' },
+  { name: 'Team Pro', tagline: 'Dispatch teams of any size', price: '99,000', per: 'UZS / seat / month', features: ['500 talk minutes per seat, pooled', 'No daily limit', 'Unlimited team members', 'Admin console'], cta: 'Choose Team Pro', popular: true },
+  { name: 'Team PAYG', tagline: 'Flexible team billing', price: '250', per: 'UZS / minute', features: ['No monthly commitment', 'One pooled balance', 'Unlimited team members'], cta: 'Top up' },
 ];
 
 export const faqs = [
   { q: 'Is recording the broker legal?', a: 'System audio capture may be subject to call-recording laws. You are responsible for ensuring all parties consent. Microphone capture, where you repeat the details yourself, avoids the question.' },
-  { q: 'What counts as a load?', a: 'One captured call that produces a load record. Your plan sets how many you get each month and how many captures you can start per day.' },
+  { q: 'What counts as a talk minute?', a: 'Time the mic is listening, counted from when you start a capture to when you stop it. Pressing the mic costs nothing on its own, and there is no daily limit. If your minutes run out mid-call, the call still finishes; only the next capture waits for a top-up or a new month.' },
   { q: 'How do I pay?', a: 'In so’m, through Payme or Click, from inside the app. Your plan switches over by itself once the payment is confirmed.' },
   { q: 'Can I fix a wrong field?', a: 'Yes. Every field is editable before you copy, and low-confidence fields are flagged so you know where to look.' },
   { q: 'Does it work on Mac?', a: 'Not yet. IlvolAI runs on Windows 10 and 11 today, and a macOS build is planned.' },
-  { q: 'Does my whole team need their own plan?', a: 'No. Team plans are bought once for your organization, priced per seat, and every dispatcher draws from one pooled load quota.' },
+  { q: 'Does my whole team need their own plan?', a: 'No. Team plans are bought once for your organization, priced per seat, and every dispatcher draws from one shared pool of talk minutes.' },
 ];
 
 const heights = [0.35, 0.6, 0.9, 0.55, 1, 0.7, 0.95, 0.5, 0.8, 0.45, 0.65, 0.3, 0.5];

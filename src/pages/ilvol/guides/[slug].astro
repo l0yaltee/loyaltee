@@ -1,0 +1,74 @@
+---
+import '@fontsource/big-shoulders-display/700';
+import '@fontsource/big-shoulders-display/800';
+import '@fontsource/big-shoulders-display/900';
+import '@fontsource/press-start-2p/400';
+import '@fontsource-variable/inter';
+import '@fontsource/jetbrains-mono/400';
+import '@fontsource/jetbrains-mono/500';
+import '../../../styles/ilvol.css';
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../../layouts/Base.astro';
+import IlvolHeader from '../../../components/IlvolHeader.astro';
+import IlvolFooter from '../../../components/IlvolFooter.astro';
+import { links, contact } from '../../../config';
+
+export const getStaticPaths = (async () => {
+  const guides = await getCollection('guides');
+  return guides.map((guide) => ({ params: { slug: guide.id }, props: { guide } }));
+}) satisfies GetStaticPaths;
+
+const { guide } = Astro.props;
+const { Content, headings } = await render(guide);
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const date = new Intl.DateTimeFormat('en', { dateStyle: 'long', timeZone: 'UTC' });
+const { title, description, hero, heroAlt, updated } = guide.data;
+const audience = guide.data.for;
+---
+
+<Base title={`${title} — IlvolAI guides`} description={description} themeColor="#0e1216" favicon="/favicon-ilvol.svg" introKey="ilvol-intro" noIntro>
+  <div class="page">
+    <IlvolHeader current="guides" />
+    <main class="wrap guide">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href={links.ilvol}>IlvolAI</a><span aria-hidden="true">/</span><a href={links.guides}>Guides</a></nav>
+      <header class="guide__head">
+        <span class="eyebrow">How-to guide</span>
+        <h1 class="display guide__title">{title}</h1>
+        <p class="guides__lede">{description}</p>
+        <p class="guide__meta">
+          {audience && <span>For {audience.charAt(0).toLowerCase() + audience.slice(1)}</span>}
+          <span>Last updated <time datetime={updated.toISOString().slice(0, 10)}>{date.format(updated)}</time></span>
+        </p>
+        <Image class="guide__hero" src={hero} alt={heroAlt} widths={[640, 1000]} sizes="(max-width: 1100px) 100vw, 1000px" loading="eager" />
+      </header>
+
+      <div class="guide__layout">
+        {toc.length > 0 && (
+          <aside class="toc" aria-label="On this page">
+            <details class="toc__mobile">
+              <summary>On this page</summary>
+              <ol>{toc.map((h) => <li class={`d${h.depth}`}><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+            </details>
+            <div class="toc__desktop">
+              <b>On this page</b>
+              <ol>{toc.map((h) => <li class={`d${h.depth}`}><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+            </div>
+          </aside>
+        )}
+        <article class="prose">
+          <Content />
+          <section class="stuck glass" aria-labelledby="stuck-title">
+            <h2 id="stuck-title">Still stuck?</h2>
+            <p>Send us a message and we will help you get connected.</p>
+            <a class="btn-dl" href={`https://t.me/${contact.telegram}`} rel="noopener">
+              <span class="btn-dl__text"><b>Message us on Telegram</b><small>@{contact.telegram}</small></span>
+            </a>
+          </section>
+        </article>
+      </div>
+    </main>
+    <IlvolFooter />
+  </div>
+</Base>

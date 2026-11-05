@@ -1,0 +1,39 @@
+---
+import WindowsLogo from './WindowsLogo.astro';
+import MenuButton from './MenuButton.astro';
+import { links } from '../config';
+
+interface Props { current?: 'home' | 'guides' }
+const { current = 'home' } = Astro.props;
+// On the product page the anchors are in-page; elsewhere they point back to it.
+const base = current === 'home' ? '' : links.ilvol;
+---
+
+    <header class="header" data-menu>
+      <div class="wrap header__bar">
+        <div class="brand">
+          <a class="brand__parent" href={links.loyaltee} aria-label="Loyaltee home">LOYALTEE<span>.</span></a>
+          <span class="brand__sep" aria-hidden="true"></span>
+          <a class="wordmark" href={`${base}#top`}>ilvol<span>AI</span></a>
+        </div>
+        <nav class="navlinks" aria-label="Main">
+          <a href={`${base}#how`}>How it works</a>
+          <a href={`${base}#features`}>Features</a>
+          <a href={`${base}#plans`}>Plans</a>
+          <a href={links.guides} aria-current={current === 'guides' ? 'page' : undefined}>Guides</a>
+          <a href={`${base}#faq`}>FAQ</a>
+        </nav>
+        <div class="header__actions">
+          <a class="btn-nav" href={`${base}#download`}><WindowsLogo />Download</a>
+          <MenuButton controls="ilvol-menu" />
+        </div>
+      </div>
+      <nav class="menu-panel" id="ilvol-menu" aria-label="Mobile" data-menu-panel>
+        <a href={`${base}#how`}>How it works</a>
+        <a href={`${base}#features`}>Features</a>
+        <a href={`${base}#plans`}>Plans</a>
+        <a href={links.guides}>Guides</a>
+        <a href={`${base}#faq`}>FAQ</a>
+        <a class="menu-panel__parent" href={links.loyaltee}>← LOYALTEE.</a>
+      </nav>
+    </header>
