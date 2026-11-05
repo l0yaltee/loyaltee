@@ -1,6 +1,7 @@
 // Links and facts shared by both sites. Edit here, not in the pages.
 export const links = {
   ilvol: '/ilvol',
+  guides: '/ilvol/guides',
   loyaltee: '/',
   // Direct installer link: always the newest build, overwritten by the release workflow.
   download: 'https://api.loyaltee.uz/storage/v1/object/public/releases/latest/ilvolai-setup.exe',

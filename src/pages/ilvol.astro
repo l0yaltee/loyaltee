@@ -11,7 +11,8 @@ import '../styles/ilvol.css';
 import Base from '../layouts/Base.astro';
 import WindowsLogo from '../components/WindowsLogo.astro';
 import MsStoreBadge from '../components/MsStoreBadge.astro';
-import MenuButton from '../components/MenuButton.astro';
+import IlvolHeader from '../components/IlvolHeader.astro';
+import IlvolFooter from '../components/IlvolFooter.astro';
 import { links, ilvolApp } from '../config';
 import displayFont from '@fontsource/big-shoulders-display/files/big-shoulders-display-latin-800-normal.woff2?url';
 import bodyFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
@@ -24,7 +25,6 @@ const planGroups: { id: string; label: string; plans: Plan[] }[] = [
   { id: 'solo', label: 'For you', plans: soloPlans },
   { id: 'team', label: 'For teams', plans: teamPlans },
 ];
-const year = new Date().getFullYear();
 
 // Shade ramp per accent: 400/300 mix toward white, 600 toward black, ink is a near-black of the hue.
 const hexToRgb = (hex: string) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
@@ -96,32 +96,7 @@ const palette = Object.fromEntries(accents.map(([, hex], i) => [hex, i === 0 ? d
       <div class="intro-line"><b></b></div>
     </div>
 
-    <header class="header" data-menu>
-      <div class="wrap header__bar">
-        <div class="brand">
-          <a class="brand__parent" href={links.loyaltee} aria-label="Loyaltee home">LOYALTEE<span>.</span></a>
-          <span class="brand__sep" aria-hidden="true"></span>
-          <a class="wordmark" href="#top">ilvol<span>AI</span></a>
-        </div>
-        <nav class="navlinks" aria-label="Main">
-          <a href="#how">How it works</a>
-          <a href="#features">Features</a>
-          <a href="#plans">Plans</a>
-          <a href="#faq">FAQ</a>
-        </nav>
-        <div class="header__actions">
-          <a class="btn-nav" href="#download"><WindowsLogo />Download</a>
-          <MenuButton controls="ilvol-menu" />
-        </div>
-      </div>
-      <nav class="menu-panel" id="ilvol-menu" aria-label="Mobile" data-menu-panel>
-        <a href="#how">How it works</a>
-        <a href="#features">Features</a>
-        <a href="#plans">Plans</a>
-        <a href="#faq">FAQ</a>
-        <a class="menu-panel__parent" href={links.loyaltee}>← LOYALTEE.</a>
-      </nav>
-    </header>
+    <IlvolHeader />
 
     <main>
       <!-- HERO -->
@@ -356,25 +331,7 @@ Equipment: Reefer · 43,000 lbs</pre>
       </section>
     </main>
 
-    <footer class="footer">
-      <div class="wrap">
-        <div class="foot">
-          <div class="foot__brand">
-            <span class="wordmark">ilvol<span>AI</span></span>
-            <p>Broker calls in, driver-ready loads out. Built for dispatchers in Uzbekistan working US lanes.</p>
-          </div>
-          <div class="foot__cols">
-            <div class="foot__col"><b>Product</b><a href="#features">Features</a><a href="#plans">Plans</a><a href="#download">Download</a></div>
-            <div class="foot__col"><b>Company</b><a href="#faq">FAQ</a><a href={links.privacy}>Privacy</a><a href={links.terms}>Terms</a></div>
-          </div>
-        </div>
-        <p class="legal">System audio capture may be subject to call-recording laws. You are responsible for ensuring all parties consent.</p>
-        <div class="foot__bottom">
-          <span>© {year} IlvolAI · a <a href={links.loyaltee}>Loyaltee</a> product</span>
-          <button type="button" class="link-btn" data-replay-intro>Replay intro</button>
-        </div>
-      </div>
-    </footer>
+    <IlvolFooter replay />
   </div>
 </Base>
 

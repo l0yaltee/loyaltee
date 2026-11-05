@@ -6,9 +6,11 @@ interface Props {
   favicon: string;
   /** sessionStorage key: the intro plays once per tab session, not on every navigation. */
   introKey: string;
+  /** Pages without an intro curtain: skip the intro delay and don't use up the session's intro. */
+  noIntro?: boolean;
 }
 
-const { title, description, themeColor, favicon, introKey } = Astro.props;
+const { title, description, themeColor, favicon, introKey, noIntro = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
@@ -29,8 +31,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary" />
     <slot name="head" />
-    <script is:inline define:vars={{ introKey }}>
+    <script is:inline define:vars={{ introKey, noIntro }}>
       try {
+        if (noIntro) { document.documentElement.dataset.intro = 'off'; throw 0; }
         if (sessionStorage.getItem(introKey)) document.documentElement.dataset.intro = 'off';
         else sessionStorage.setItem(introKey, '1');
       } catch {}
