@@ -12,7 +12,7 @@ heroAlt: The RingCentral and IlvolAI names over a sound wave
 
 Once connected, IlvolAI sees when you **pick up** and **hang up** a RingCentral call, and starts and stops the recording for you. You no longer have to press the microphone button.
 
-IlvolAI only learns two things about a call: **when it starts and stops**, and **the caller's number**. It never receives the call audio from RingCentral. The audio is still captured on your own PC, like before.
+IlvolAI only learns two things about a call: **when it starts and stops**, and **who is calling**: the caller's number, plus the caller ID name when RingCentral has one. It never receives the call audio from RingCentral. The audio is still captured on your own PC, like before.
 
 Each company connects through its own small **private RingCentral app**. Only your company's account can use it, so no one else gets access to your calls.
 
@@ -45,7 +45,7 @@ Only one person in the company does this. At the end they give the **Client ID**
 4. Under **Permissions**, tick **Call Control** and **WebSocket Subscriptions**. Tick nothing else.
 
    > [!WARNING] Not "Webhook Subscriptions"
-   > Choose **WebSocket** Subscriptions, not Webhook Subscriptions. The two names look almost the same, and mixing them up is the most common mistake. With the wrong one, IlvolAI connects but never sees your calls.
+   > Choose **WebSocket** Subscriptions, not Webhook Subscriptions. The two names look almost the same, and mixing them up is the most common mistake. With the wrong one, IlvolAI won't connect. It says the app is missing WebSocket Subscriptions.
 
    ![Only Call Control and WebSocket Subscriptions ticked](./assets/ringcentral/03-permissions.png)
 
