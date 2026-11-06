@@ -11,7 +11,7 @@ export const links = {
 };
 
 export const contact = {
-  email: 'hello@loyaltee.com',
+  email: 'hello@loyaltee.uz',
   telegram: 'loyaltee',
   // Leave empty to hide the phone row on the contact section.
   phone: '',
