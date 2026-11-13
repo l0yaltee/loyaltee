@@ -59,11 +59,11 @@ Every dispatcher makes their own personal key, called a **JWT**. It lets IlvolAI
 
 1. Go to [developers.ringcentral.com](https://developers.ringcentral.com) and sign in. Click your **profile** (top right), then **Credentials**, then **Create JWT**.
 
-   ![The Create JWT form](./assets/ringcentral/05-create-jwt.png)
+   ![The Create JWT form, limited to one app by its Client ID](./assets/ringcentral/05-create-jwt.png)
 
-2. Choose **Only specific apps** and paste the app's **Client ID** from the admin.
+2. Give it a **Label** (any name, like "IlvolAI"). Tick **Only specific apps of my choice**, paste the app's **Client ID** from the admin, and click **Add App**.
 
-3. Pick a **long expiry**, so you do not have to redo this every few weeks.
+3. Leave **Expiration Date** empty so the JWT does not expire, or pick a date far ahead, so you do not have to redo this every few weeks.
 
 4. Click **Create** and **copy the JWT**.
 
@@ -76,9 +76,9 @@ Every dispatcher makes their own personal key, called a **JWT**. It lets IlvolAI
 
 2. Paste the **Client ID**, the **Client Secret** and your **JWT** into the three boxes.
 
-3. Click **Connect**. After a moment it shows **Connected**.
+3. Click **Connect**. After a moment it says **Connected to RingCentral**, with your extension, and the badge turns **Live**.
 
-   ![IlvolAI Settings showing RingCentral as Connected](./assets/ringcentral/06-ilvolai-connected.png)
+   ![IlvolAI Settings showing RingCentral connected, with the Live badge](./assets/ringcentral/06-ilvolai-connected.png)
 
 4. Choose what IlvolAI does when you answer a call:
 
@@ -99,8 +99,8 @@ Find the message IlvolAI shows, and follow the fix next to it.
 | --- | --- |
 | "RingCentral doesn't recognise this Client ID and Client Secret" | Copy both again from the app's Dashboard, under Credentials. Make sure there are no spaces before or after. |
 | "RingCentral didn't accept this JWT" | Create a new JWT and paste **all** of it. It is very long, so make sure nothing is cut off. |
-| The JWT has expired | Create a new JWT (Part 2) and paste it in. Next time pick a longer expiry. |
-| The JWT was made for a different app | Create a new JWT and set it to **Only specific apps**, using this app's Client ID. |
+| The JWT has expired | Create a new JWT (Part 2) and paste it in. Next time leave the expiration date empty, or pick one far ahead. |
+| The JWT was made for a different app | Create a new JWT and set it to **Only specific apps of my choice**, using this app's Client ID. |
 | The app is not set up for JWT | Ask the admin to open the app and set **Auth** to **JWT auth flow**. |
 | The app is missing **Call Control** | Ask the admin to add the **Call Control** permission. |
 | The app is missing **WebSocket Subscriptions** | Ask the admin to add **WebSocket Subscriptions**. Not Webhook Subscriptions. |
