@@ -13,7 +13,7 @@ import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
 import IlvolHeader from '../../../components/IlvolHeader.astro';
 import IlvolFooter from '../../../components/IlvolFooter.astro';
-import { links, contact } from '../../../config';
+import { links, contact, ilvolIcons } from '../../../config';
 
 export const getStaticPaths = (async () => {
   const guides = await getCollection('guides');
@@ -28,7 +28,7 @@ const { title, description, hero, heroAlt, updated } = guide.data;
 const audience = guide.data.for;
 ---
 
-<Base title={`${title} — IlvolAI guides`} description={description} themeColor="#0e1216" favicon="/favicon-ilvol.svg" introKey="ilvol-intro" noIntro>
+<Base title={`${title} — IlvolAI guides`} description={description} themeColor="#0e1216" {...ilvolIcons} introKey="ilvol-intro" noIntro>
   <div class="page">
     <IlvolHeader current="guides" />
     <main class="wrap guide">

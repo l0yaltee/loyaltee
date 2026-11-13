@@ -4,14 +4,21 @@ interface Props {
   description: string;
   themeColor: string;
   favicon: string;
+  /** Home-screen icon for iOS and Android, 180px. */
+  appleTouchIcon?: string;
+  /** The picture a shared link shows (Telegram, WhatsApp, Slack…), as a site path. */
+  ogImage?: string;
   /** sessionStorage key: the intro plays once per tab session, not on every navigation. */
   introKey: string;
   /** Pages without an intro curtain: skip the intro delay and don't use up the session's intro. */
   noIntro?: boolean;
 }
 
-const { title, description, themeColor, favicon, introKey, noIntro = false } = Astro.props;
+const { title, description, themeColor, favicon, appleTouchIcon, ogImage, introKey, noIntro = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const faviconType = favicon.endsWith('.svg') ? 'image/svg+xml' : 'image/png';
+// Link previews need an absolute URL; a bare path is not fetched.
+const ogImageUrl = ogImage ? new URL(ogImage, Astro.site) : null;
 ---
 
 <!doctype html>
@@ -24,12 +31,16 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="theme-color" content={themeColor} />
     <meta name="color-scheme" content="dark" />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href={favicon} />
+    <link rel="icon" type={faviconType} href={favicon} />
+    {appleTouchIcon && <link rel="apple-touch-icon" href={appleTouchIcon} />}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    {ogImageUrl && <meta property="og:image:alt" content="IlvolAI logo" />}
     <meta name="twitter:card" content="summary" />
+    {ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}
     <slot name="head" />
     <script is:inline define:vars={{ introKey, noIntro }}>
       try {

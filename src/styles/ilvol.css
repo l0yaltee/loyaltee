@@ -63,7 +63,10 @@ h1, h2, h3, p { margin: 0; }
 .brand__parent { font-family: 'Press Start 2P', ui-monospace, monospace; font-size: 10px; letter-spacing: 0.08em; color: #d3a8ff; }
 .brand__parent span { color: var(--fg); }
 .brand__sep { width: 2px; height: 22px; background: rgba(var(--accent-rgb), 0.45); }
-.brand .wordmark { font-size: 30px; }
+.brand .wordmark { font-size: 30px; display: inline-flex; align-items: center; }
+/* The app's own icon, beside the wordmark in the header. Decorative: the
+   wordmark next to it is the link's name. */
+.wordmark__logo { width: 32px; height: 32px; border-radius: 8px; flex: none; margin-right: 10px; }
 .navlinks { display: flex; gap: 28px; font-size: 14px; font-weight: 500; }
 .navlinks a { color: var(--soft); }
 .navlinks a:hover { color: var(--fg); }
@@ -309,6 +312,7 @@ html[data-intro='off'] .intro { display: none; }
   .wrap { padding-inline: 16px; }
   .header__bar { height: 60px; }
   .brand__parent, .brand__sep { display: none; }
+  .wordmark__logo { width: 28px; height: 28px; border-radius: 7px; margin-right: 8px; }
   .brand .wordmark { font-size: 28px; }
   .btn-nav { padding: 10px 14px; }
   html { scroll-padding-top: 68px; }

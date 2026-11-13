@@ -20,3 +20,12 @@ export const contact = {
 export const ilvolApp = {
   version: '0.8.0',
 };
+
+// The IlvolAI logo, the same image the desktop app ships as its icon
+// (loadform/src-tauri/icons/app-icon-source.png in l0yaltee/ilvol), at the
+// sizes each place needs. Spread into <Base> on every IlvolAI page.
+export const ilvolIcons = {
+  favicon: '/favicon-ilvol.png',
+  appleTouchIcon: '/apple-touch-icon-ilvol.png',
+  ogImage: '/ilvol-og.jpg',
+};
