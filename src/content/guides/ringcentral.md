@@ -38,20 +38,20 @@ Only one person in the company does this. At the end they give the **Client ID**
    > [!TIP] Register App is greyed out?
    > Your user needs a role that includes **Developer Portal Access**. In the RingCentral **Admin Portal**, go to **Users**, then **Roles**, and add that permission to your role (or ask the account owner to do it). Then sign in again.
 
-3. Set **Auth** to **JWT auth flow**. Set **Access** to **Private, only this account**.
+3. Give the app a name and a short description. Then, under **Auth**, choose **JWT auth flow**.
 
-   ![Auth set to JWT auth flow and Access set to Private](./assets/ringcentral/02-auth-and-access.png)
+   ![Auth set to JWT auth flow](./assets/ringcentral/02-auth-and-access.png)
 
-4. Under **Permissions**, tick **Call Control** and **WebSocket Subscriptions**. Tick nothing else.
+4. Under **Security**, in **Application Scopes**, add **Call Control** and **WebSocket Subscriptions**. Add nothing else. Below that, choose **This app is private** (only callable with credentials from your own RingCentral account). Then click **Create**.
 
    > [!WARNING] Not "Webhook Subscriptions"
    > Choose **WebSocket** Subscriptions, not Webhook Subscriptions. The two names look almost the same, and mixing them up is the most common mistake. With the wrong one, IlvolAI won't connect. It says the app is missing WebSocket Subscriptions.
 
-   ![Only Call Control and WebSocket Subscriptions ticked](./assets/ringcentral/03-permissions.png)
+   ![Application Scopes with only Call Control and WebSocket Subscriptions, and the app set to private](./assets/ringcentral/03-permissions.png)
 
-5. Open the **Credentials** tab. Copy the **Client ID** and the **Client Secret**, and send them to your dispatchers privately (see [Keep your keys safe](#keep-your-keys-safe)).
+5. The app opens on its **Dashboard**. Under **Credentials**, copy the **Client ID**, then click **Click to see** next to **Client Secret** and copy that too. Send both to your dispatchers privately (see [Keep your keys safe](#keep-your-keys-safe)).
 
-   ![The Client ID and Client Secret on the Credentials tab](./assets/ringcentral/04-credentials-tab.png)
+   ![The Credentials panel on the app's Dashboard, with the Client ID and Client Secret](./assets/ringcentral/04-credentials-tab.png)
 
 ## Part 2: Each dispatcher
 
@@ -97,7 +97,7 @@ Find the message IlvolAI shows, and follow the fix next to it.
 
 | What IlvolAI says | What to do |
 | --- | --- |
-| "RingCentral doesn't recognise this Client ID and Client Secret" | Copy both again from the Credentials tab. Make sure there are no spaces before or after. |
+| "RingCentral doesn't recognise this Client ID and Client Secret" | Copy both again from the app's Dashboard, under Credentials. Make sure there are no spaces before or after. |
 | "RingCentral didn't accept this JWT" | Create a new JWT and paste **all** of it. It is very long, so make sure nothing is cut off. |
 | The JWT has expired | Create a new JWT (Part 2) and paste it in. Next time pick a longer expiry. |
 | The JWT was made for a different app | Create a new JWT and set it to **Only specific apps**, using this app's Client ID. |
