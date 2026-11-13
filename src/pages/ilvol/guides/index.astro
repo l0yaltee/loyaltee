@@ -12,7 +12,7 @@ import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
 import IlvolHeader from '../../../components/IlvolHeader.astro';
 import IlvolFooter from '../../../components/IlvolFooter.astro';
-import { links } from '../../../config';
+import { links, ilvolIcons } from '../../../config';
 
 const guides = (await getCollection('guides')).sort((a, b) => a.data.order - b.data.order);
 const date = new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeZone: 'UTC' });
@@ -22,7 +22,7 @@ const date = new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeZone: 'UTC
   title="Guides — IlvolAI"
   description="Step-by-step how-to guides for IlvolAI, written for dispatchers."
   themeColor="#0e1216"
-  favicon="/favicon-ilvol.svg"
+  {...ilvolIcons}
   introKey="ilvol-intro"
   noIntro
 >

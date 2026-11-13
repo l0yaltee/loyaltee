@@ -13,7 +13,7 @@ import WindowsLogo from '../../components/WindowsLogo.astro';
 import MsStoreBadge from '../../components/MsStoreBadge.astro';
 import IlvolHeader from '../../components/IlvolHeader.astro';
 import IlvolFooter from '../../components/IlvolFooter.astro';
-import { links, ilvolApp } from '../../config';
+import { links, ilvolApp, ilvolIcons } from '../../config';
 import displayFont from '@fontsource/big-shoulders-display/files/big-shoulders-display-latin-800-normal.woff2?url';
 import bodyFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import {
@@ -50,7 +50,7 @@ const palette = Object.fromEntries(accents.map(([, hex], i) => [hex, i === 0 ? d
   title="IlvolAI — broker calls to driver-ready loads"
   description="IlvolAI listens to your broker call, fills in pickup, stops, delivery, rate and weight as they talk, and hands you a clean message for your driver. For Windows."
   themeColor="#0e1216"
-  favicon="/favicon-ilvol.svg"
+  {...ilvolIcons}
   introKey="ilvol-intro"
 >
   <Fragment slot="head">
