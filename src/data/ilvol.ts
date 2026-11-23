@@ -1,5 +1,7 @@
 // Content for the ilvolAI product page.
 
+import { links } from '../config';
+
 const icon = {
   pin: 'M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0ZM12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z',
   flag: 'M4 22V4s1-1 4-1 5 2 8 2 4-1 4-1v11s-1 1-4 1-5-2-8-2-4 1-4 1',
@@ -110,9 +112,9 @@ export const faqs = [
   { q: 'How do I pay?', a: 'In so’m, through Payme or Click, from inside the app. Your plan switches over by itself once the payment is confirmed.' },
   // The three answers below describe what the app does (audio capture in the desktop app,
   // the loads table and its access rules, the delete-account routine) and match the Privacy Policy.
-  { q: 'Is my call audio recorded or stored?', a: 'No. While a capture is running, the app streams the audio live to Deepgram, the speech-to-text service we use, and gets the words back. The app does not save the audio on your PC, and we do not keep recordings on our servers. It only listens while you have a capture running.', more: { href: '/ilvol/privacy', label: 'Privacy Policy' } },
-  { q: 'What do you keep from a call, and for how long?', a: 'The transcript of each call and the load fields taken from it are saved in your account, so you can find them in History. They stay for as long as your account exists, and you can delete any load yourself. If you delete your account, the loads you captured outside a company are deleted with it. Loads captured for a company stay with the company.', more: { href: '/ilvol/privacy', label: 'Privacy Policy, section 6' } },
-  { q: 'Who can read my transcripts?', a: 'Your account can read its own loads, and no other account can. If you use IlvolAI through a company, the company’s owners and admins can also see the loads captured for the company. To fill in the fields and score the call, the transcript text (not the audio) is sent to the language model service named in the Privacy Policy.', more: { href: '/ilvol/privacy', label: 'Privacy Policy, section 3' } },
+  { q: 'Is my call audio recorded or stored?', a: 'No. While a capture is running, the app streams the audio live to Deepgram, the speech-to-text service we use, and gets the words back. The app does not save the audio on your PC, and we do not keep recordings on our servers. It only listens while you have a capture running.', more: { href: links.privacy, label: 'Privacy Policy' } },
+  { q: 'What do you keep from a call, and for how long?', a: 'The transcript of each call and the load fields taken from it are saved in your account, so you can find them in History. They stay for as long as your account exists, and you can delete any load yourself. If you delete your account, the loads you captured outside a company are deleted with it. Loads captured for a company stay with the company.', more: { href: links.privacy, label: 'Privacy Policy, section 6' } },
+  { q: 'Who can read my transcripts?', a: 'Your account can read its own loads, and no other account can. If you use IlvolAI through a company, the company’s owners and admins can also see the loads captured for the company. To fill in the fields and score the call, the transcript text (not the audio) is sent to the language model service named in the Privacy Policy.', more: { href: links.privacy, label: 'Privacy Policy, section 3' } },
   { q: 'Can I fix a wrong field?', a: 'Yes. Every field is editable before you copy, and low-confidence fields are flagged so you know where to look.' },
   { q: 'Does it work on Mac?', a: 'Not yet. IlvolAI runs on Windows 10 and 11 today, and a macOS build is planned.' },
   { q: 'Does my whole team need their own plan?', a: 'No. Team plans are bought once for your organization, priced per seat, and every dispatcher draws from one shared pool of talk minutes.' },

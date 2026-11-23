@@ -336,21 +336,23 @@ Equipment: Reefer · 43,000 lbs</pre>
 
     <IlvolFooter replay />
   </div>
-</Base>
 
-<script define:vars={{ releaseManifest }}>
-  // Version label and installer link come from the newest published release (the
-  // same public answer the app's updater reads), so they cannot go stale or disagree.
-  // On any failure the buttons keep their fallback link and show no version.
-  fetch(releaseManifest, { headers: { accept: 'application/json' } })
-    .then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (rel) {
-      if (!rel || !/^\d+\.\d+\.\d+$/.test(rel.version || '')) return;
-      var ok = typeof rel.url === 'string' && rel.url.indexOf('https://api.loyaltee.uz/') === 0;
-      document.querySelectorAll('[data-version]').forEach(function (el) {
-        el.textContent = 'v' + rel.version + (el.getAttribute('data-sep') || ' ');
-      });
-      if (ok) document.querySelectorAll('[data-download]').forEach(function (a) { a.setAttribute('href', rel.url); });
-    })
-    .catch(function () {});
-</script>
+  <script define:vars={{ releaseManifest }}>
+    // Version label and installer link come from the newest published release (the
+    // same public answer the app's updater reads), so they cannot go stale or disagree.
+    // On any failure the buttons keep their fallback link and show no version.
+    fetch(releaseManifest, { headers: { accept: 'application/json' } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (rel) {
+        // Label and link change together or not at all, so the label never names a
+        // version the fallback link may not be.
+        if (!rel || !/^\d+\.\d+\.\d+$/.test(rel.version || '')) return;
+        if (typeof rel.url !== 'string' || rel.url.indexOf('https://api.loyaltee.uz/') !== 0) return;
+        document.querySelectorAll('[data-version]').forEach(function (el) {
+          el.textContent = 'v' + rel.version + (el.getAttribute('data-sep') || ' ');
+        });
+        document.querySelectorAll('[data-download]').forEach(function (a) { a.setAttribute('href', rel.url); });
+      })
+      .catch(function () {});
+  </script>
+</Base>

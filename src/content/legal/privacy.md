@@ -3,7 +3,7 @@ title: Privacy Policy
 description: What IlvolAI collects, why, who processes it, and the choices you have.
 ---
 
-Effective date: 1 October 2026
+Effective date: 1 October 2026\
 Last updated: 2 October 2026
 
 IlvolAI ("we", "us") makes the IlvolAI desktop app for Windows, which listens to
