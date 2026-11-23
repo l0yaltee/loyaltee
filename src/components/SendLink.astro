@@ -1,0 +1,43 @@
+---
+// "Send me the link": IlvolAI is Windows-only, so someone on a phone can't install it.
+// These are plain share links (Telegram's share page, a mailto: with the link in the
+// body, and a copy button), so the page stays static and nothing is sent by us.
+import { shareUrl } from '../config';
+
+interface Props { class?: string }
+const { class: className } = Astro.props;
+const text = 'IlvolAI: broker calls to driver-ready loads. Open this on your Windows PC to install it.';
+const telegram = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
+const mail = `mailto:?subject=${encodeURIComponent('IlvolAI for Windows')}&body=${encodeURIComponent(`${text}\n\n${shareUrl}`)}`;
+---
+
+<div class:list={['sendlink', className]} data-sendlink data-url={shareUrl}>
+  <p class="sendlink__lead"><b>On your phone?</b> IlvolAI installs on a Windows PC. Send yourself the link and open it there.</p>
+  <div class="sendlink__actions">
+    <a class="sendlink__btn" href={telegram} rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg>Send via Telegram
+    </a>
+    <a class="sendlink__btn" href={mail}>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 6-10 7L2 6"></path></svg>Email me the link
+    </a>
+    <button type="button" class="sendlink__btn" data-copy hidden>Copy link</button>
+  </div>
+</div>
+
+<script>
+  // Copy button: only shown where the clipboard API exists (it needs https, so not on every preview).
+  document.querySelectorAll<HTMLElement>('[data-sendlink]').forEach((box) => {
+    const btn = box.querySelector<HTMLButtonElement>('[data-copy]');
+    if (!btn || !navigator.clipboard) return;
+    btn.hidden = false;
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(box.dataset.url ?? '');
+        btn.textContent = 'Copied';
+      } catch {
+        btn.textContent = 'Copy failed';
+      }
+      setTimeout(() => { btn.textContent = 'Copy link'; }, 2000);
+    });
+  });
+</script>

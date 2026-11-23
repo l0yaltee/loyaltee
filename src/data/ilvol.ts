@@ -1,5 +1,7 @@
 // Content for the ilvolAI product page.
 
+import { links } from '../config';
+
 const icon = {
   pin: 'M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0ZM12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z',
   flag: 'M4 22V4s1-1 4-1 5 2 8 2 4-1 4-1v11s-1 1-4 1-5-2-8-2-4 1-4 1',
@@ -51,7 +53,18 @@ export const steps = [
   { n: '03', tag: 'Copy for driver', title: 'Send it in one paste', body: 'Fix anything flagged, press Copy for driver, and paste a clean load message into Telegram, WhatsApp or SMS.' },
 ];
 
-export const fieldNames = ['pickup', 'pickup window', 'stops', 'delivery', 'delivery window', 'commodity', 'equipment', 'rate', 'miles', 'weight', 'trailer', 'notes'];
+// Every field the app fills in and lets you edit: the 18 in FIELD_DEFS of the app
+// (src/app/lib/constants.ts) and the extraction prompt, in the app's order.
+export const fieldNames = [
+  'driver location',
+  'pickup location', 'pickup date/time', 'pickup type', 'pickup window',
+  'stops',
+  'delivery location', 'delivery date/time', 'delivery type', 'delivery window',
+  'commodity', 'equipment type',
+  'rate', 'miles', 'deadhead miles', 'weight',
+  'trailer instructions', 'additional notes',
+];
+export const fieldCount = fieldNames.length;
 
 export const team = [
   { i: 'AK', bg: 'var(--accent-500)' },
@@ -82,7 +95,7 @@ export interface Plan {
 }
 
 export const soloPlans: Plan[] = [
-  { name: 'Free', tagline: 'Try IlvolAI', price: '0', per: 'UZS · forever', features: ['60 talk minutes / month', 'All 16 load fields', 'No card to start'], cta: 'Start free' },
+  { name: 'Free', tagline: 'Try IlvolAI', price: '0', per: 'UZS · forever', features: ['60 talk minutes / month', 'All 18 load fields', 'No card to start'], cta: 'Start free' },
   { name: 'Starter', tagline: 'Solo dispatcher basics', price: '49,000', per: 'UZS / month', features: ['250 talk minutes / month', 'No daily limit', 'Every feature included'], cta: 'Choose Starter' },
   { name: 'Pro', tagline: 'Full-time dispatcher', price: '99,000', per: 'UZS / month', features: ['500 talk minutes / month', 'No daily limit', 'Every feature included'], cta: 'Choose Pro', popular: true },
   { name: 'Pay as you go', tagline: 'Only pay for what you use', price: '250', per: 'UZS / minute', features: ['No monthly commitment', 'Packs from 30 minutes, or any amount', 'Minutes never expire'], cta: 'Top up' },
@@ -97,6 +110,11 @@ export const faqs = [
   { q: 'Is recording the broker legal?', a: 'System audio capture may be subject to call-recording laws. You are responsible for ensuring all parties consent. Microphone capture, where you repeat the details yourself, avoids the question.' },
   { q: 'What counts as a talk minute?', a: 'Time the mic is listening, counted from when you start a capture to when you stop it. Pressing the mic costs nothing on its own, and there is no daily limit. If your minutes run out mid-call, the call still finishes; only the next capture waits for a top-up or a new month.' },
   { q: 'How do I pay?', a: 'In so’m, through Payme or Click, from inside the app. Your plan switches over by itself once the payment is confirmed.' },
+  // The three answers below describe what the app does (audio capture in the desktop app,
+  // the loads table and its access rules, the delete-account routine) and match the Privacy Policy.
+  { q: 'Is my call audio recorded or stored?', a: 'No. While a capture is running, the app streams the audio live to Deepgram, the speech-to-text service we use, and gets the words back. The app does not save the audio on your PC, and we do not keep recordings on our servers. It only listens while you have a capture running.', more: { href: links.privacy, label: 'Privacy Policy' } },
+  { q: 'What do you keep from a call, and for how long?', a: 'The transcript of each call and the load fields taken from it are saved in your account, so you can find them in History. They stay for as long as your account exists, and you can delete any load yourself. If you delete your account, the loads you captured outside a company are deleted with it. Loads captured for a company stay with the company.', more: { href: links.privacy, label: 'Privacy Policy, section 6' } },
+  { q: 'Who can read my transcripts?', a: 'Your account can read its own loads, and no other account can. If you use IlvolAI through a company, the company’s owners and admins can also see the loads captured for the company. To fill in the fields and score the call, the transcript text (not the audio) is sent to the language model service named in the Privacy Policy.', more: { href: links.privacy, label: 'Privacy Policy, section 3' } },
   { q: 'Can I fix a wrong field?', a: 'Yes. Every field is editable before you copy, and low-confidence fields are flagged so you know where to look.' },
   { q: 'Does it work on Mac?', a: 'Not yet. IlvolAI runs on Windows 10 and 11 today, and a macOS build is planned.' },
   { q: 'Does my whole team need their own plan?', a: 'No. Team plans are bought once for your organization, priced per seat, and every dispatcher draws from one shared pool of talk minutes.' },

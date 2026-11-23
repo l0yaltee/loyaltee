@@ -224,11 +224,7 @@ html[data-intro='off'] .intro { display: none; }
 .plans-section .wrap { display: flex; flex-direction: column; gap: 44px; }
 .plans-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; }
 .plans-head .section-head { max-width: 700px; }
-.tabs { display: inline-flex; padding: 4px; border-radius: 14px; background: rgba(2, 6, 23, 0.6); border: 1px solid var(--border); }
-.tabs button { border: 0; cursor: pointer; font: 600 14px var(--sans); border-radius: 10px; padding: 10px 18px; min-height: 44px; background: transparent; color: var(--soft); }
-.tabs button[aria-selected='true'] { background: var(--accent-500); color: var(--accent-ink); }
 .plans { display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); gap: 16px; }
-.plans[hidden] { display: none; }
 .plan { position: relative; display: flex; flex-direction: column; gap: 22px; border-radius: 24px; padding: 28px 24px 24px; min-width: 0; box-sizing: border-box; background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border); }
 .plan--popular { background: rgba(var(--accent-rgb), 0.12); border-color: rgba(var(--accent-rgb), 0.6); box-shadow: 0 30px 60px -30px rgba(var(--accent-rgb), 0.55); }
 .plan__badge { position: absolute; top: -12px; left: 22px; background: var(--accent-500); color: var(--accent-ink); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 999px; padding: 4px 10px; }
@@ -262,6 +258,28 @@ html[data-intro='off'] .intro { display: none; }
 .btn-dark:hover { color: var(--fg); background: color-mix(in srgb, var(--accent-ink) 80%, var(--accent-500)); }
 .btn-dark b { font-size: 17px; line-height: 21px; }
 .btn-dark small { font-size: 11px; line-height: 14px; color: var(--accent-300); }
+/* "Send me the link" (SendLink.astro). Dark by default; recoloured inside the accent download card. */
+.sendlink { display: flex; flex-direction: column; gap: 12px; font-size: 14px; line-height: 1.5; color: var(--soft); }
+.sendlink__lead { margin: 0; max-width: 34em; }
+.sendlink__lead b { color: var(--fg); font-weight: 600; }
+.sendlink__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.sendlink__btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; box-sizing: border-box; padding: 0 16px; border-radius: 12px; border: 1px solid var(--border); background: rgba(30, 41, 59, 0.5); color: var(--fg); font: 600 14px var(--sans); cursor: pointer; }
+.sendlink__btn:hover { color: var(--fg); border-color: rgba(var(--accent-rgb), 0.6); }
+.sendlink__btn[hidden] { display: none; }
+.download__card .sendlink { color: var(--accent-ink); font-weight: 500; }
+.download__card .sendlink__lead b { color: var(--accent-ink); font-weight: 700; }
+.download__card .sendlink__btn { background: rgba(255, 255, 255, 0.18); border-color: rgba(0, 0, 0, 0.25); color: var(--accent-ink); }
+.download__card .sendlink__btn:hover { background: rgba(255, 255, 255, 0.3); color: var(--accent-ink); border-color: var(--accent-ink); }
+/* In the hero it only matters where a phone is likely: narrow screens. */
+.sendlink--hero { display: none; }
+@media (max-width: 1000px) { .sendlink--hero { display: flex; } }
+.plans-contact { font-size: 14px; color: var(--soft); }
+.plans-contact a { text-decoration: underline; text-underline-offset: 3px; }
+.plans-group { display: flex; flex-direction: column; gap: 16px; }
+.plans-group__title { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-400); }
+.plans-group__title small { margin-left: 10px; font-size: 13px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--muted); }
+.faq__more { margin-top: 8px; font-size: 14px; }
+.faq__more a { text-decoration: underline; text-underline-offset: 3px; }
 .download__reqs { display: flex; flex-wrap: wrap; gap: 8px 28px; font-size: 12.5px; font-weight: 500; }
 
 /* ---------- FAQ ---------- */
@@ -348,8 +366,6 @@ html[data-intro='off'] .intro { display: none; }
   /* Plans become a swipeable row with the next card peeking in. */
   .plans-section { padding-block: 72px; }
   .plans-section .wrap { gap: 28px; }
-  .tabs { width: 100%; box-sizing: border-box; }
-  .tabs button { flex: 1; }
   .plans { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -16px; padding: 14px 16px 8px; scroll-padding-inline: 16px; scrollbar-width: none; }
   .plans::-webkit-scrollbar { display: none; }
   .plan { flex: 0 0 82%; scroll-snap-align: start; }
@@ -404,6 +420,9 @@ html[data-intro='off'] .intro { display: none; }
 .prose > * + * { margin-top: 1.1em; }
 .prose h2 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: clamp(32px, 4.4vw, 44px); line-height: 1; color: var(--fg); margin-top: 2.2em; text-wrap: balance; }
 .prose h2:first-child { margin-top: 0; }
+/* Privacy and Terms: long numbered sections, so smaller headings and a readable line length. */
+.prose--legal { max-width: 720px; }
+.prose--legal h2 { font-size: clamp(24px, 3vw, 30px); line-height: 1.1; margin-top: 1.9em; }
 .prose strong { color: var(--fg); font-weight: 600; }
 .prose a { text-decoration: underline; text-underline-offset: 3px; }
 .prose ul { padding-left: 1.3em; }

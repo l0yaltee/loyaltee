@@ -25,6 +25,8 @@ Node 22+ and pnpm 11.
 - `src/config.ts` — links and contact details shared by both pages: installer download URL, Microsoft Store URL, privacy/terms, email, Telegram, phone. **Edit these first.**
 - `src/data/` — page content (plans, FAQ, flow stages, audiences…), kept out of the markup.
 - `src/pages/` — one file per page. Interactive bits (plan tabs, flow stops) are small inline scripts; there's no client framework.
+- The download buttons look up the newest published release (`releaseManifest` in `src/config.ts`) in the browser and take the version label and installer link from it, so a release needs no change here.
+- `src/content/legal/` — the Privacy Policy and Terms of Service, rendered at `/ilvol/privacy` and `/ilvol/terms`. The text is the published wording; change it only on purpose.
 - `src/styles/` — one stylesheet per site. The two sites deliberately look different: Loyaltee is the pixel/hard-edge violet world, ilvolAI uses the app's glass design system.
 - `src/layouts/Base.astro` — `<head>`, mobile menu, intro replay. Each site's intro animation plays once per browser session.
 
