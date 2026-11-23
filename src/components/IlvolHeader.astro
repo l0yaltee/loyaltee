@@ -3,7 +3,7 @@ import WindowsLogo from './WindowsLogo.astro';
 import MenuButton from './MenuButton.astro';
 import { links } from '../config';
 
-interface Props { current?: 'home' | 'guides' }
+interface Props { current?: 'home' | 'guides' | 'legal' }
 const { current = 'home' } = Astro.props;
 // On the product page the anchors are in-page; elsewhere they point back to it.
 const base = current === 'home' ? '' : links.ilvol;

@@ -19,4 +19,12 @@ const guides = defineCollection({
     }),
 });
 
-export const collections = { guides };
+// The legal texts, one Markdown file each, rendered at /ilvol/<file name>.
+// The body is the published policy text word for word; only edit it when the
+// wording itself is changed on purpose.
+const legal = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/legal' }),
+  schema: z.object({ title: z.string(), description: z.string() }),
+});
+
+export const collections = { guides, legal };
