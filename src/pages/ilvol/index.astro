@@ -13,17 +13,19 @@ import WindowsLogo from '../../components/WindowsLogo.astro';
 import MsStoreBadge from '../../components/MsStoreBadge.astro';
 import IlvolHeader from '../../components/IlvolHeader.astro';
 import IlvolFooter from '../../components/IlvolFooter.astro';
-import { links, ilvolApp, ilvolIcons } from '../../config';
+import SendLink from '../../components/SendLink.astro';
+import { links, contact, releaseManifest, ilvolIcons } from '../../config';
 import displayFont from '@fontsource/big-shoulders-display/files/big-shoulders-display-latin-800-normal.woff2?url';
 import bodyFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import {
-  heroFields, confFields, steps, fieldNames, team, accents,
+  heroFields, confFields, steps, fieldNames, fieldCount, team, accents,
   soloPlans, teamPlans, faqs, introBars, orbBars, bigBars, type Plan,
 } from '../../data/ilvol';
 
-const planGroups: { id: string; label: string; plans: Plan[] }[] = [
-  { id: 'solo', label: 'For you', plans: soloPlans },
-  { id: 'team', label: 'For teams', plans: teamPlans },
+// Both groups are shown, one under the other, so team plans are not hidden behind a tab.
+const planGroups: { id: string; label: string; note: string; plans: Plan[] }[] = [
+  { id: 'solo', label: 'For you', note: 'One dispatcher', plans: soloPlans },
+  { id: 'team', label: 'For teams', note: 'A dispatch office sharing one pool of minutes', plans: teamPlans },
 ];
 
 // Shade ramp per accent: 400/300 mix toward white, 600 toward black, ink is a near-black of the hue.
@@ -107,12 +109,13 @@ const palette = Object.fromEntries(accents.map(([, hex], i) => [hex, i === 0 ? d
             <h1 class="display">Hear the load.<br /><span>Send the load.</span></h1>
             <p class="hero-lede">IlvolAI listens to your broker call, writes down pickup, stops, delivery, rate and weight while the broker talks, and hands you a clean message for your driver. Shows how sure it is about every field.</p>
             <div class="cta-row">
-              <a class="btn-dl" href={links.download}>
+              <a class="btn-dl" href={links.download} data-download>
                 <WindowsLogo size={26} />
-                <span class="btn-dl__text"><b>Download for Windows</b><small class="mono">v{ilvolApp.version} · Windows 10/11 · x64</small></span>
+                <span class="btn-dl__text"><b>Download for Windows</b><small class="mono"><span data-version data-sep=" · "></span>Windows 10/11 · x64</small></span>
               </a>
               <MsStoreBadge />
             </div>
+            <SendLink class="sendlink--hero" />
             <div class="hero-facts">
               <span>Free plan: 60 talk minutes a month</span><span>No card to start</span><span>Pay in so'm with Payme or Click</span>
             </div>
@@ -197,7 +200,7 @@ Equipment: Reefer · 43,000 lbs</pre>
           </article>
           <article class="glass feat-card feat-card--big span3">
             <div class="mono field-names">{fieldNames.map((n) => <span>{n}</span>)}</div>
-            <h3>16 load fields, multi-stop included</h3>
+            <h3>{fieldCount} load fields, multi-stop included</h3>
             <p>Pickup and delivery windows, live unload or drop and hook, trailer instructions, lumpers. A load with four stops comes out as four stops.</p>
           </article>
           <article class="glass feat-card span2">
@@ -272,14 +275,11 @@ Equipment: Reefer · 43,000 lbs</pre>
               <span class="eyebrow">Plans</span>
               <h2 class="display h2">Priced in so'm. Counted in minutes.</h2>
             </div>
-            <div class="tabs" role="tablist" aria-label="Plan type" data-plan-tabs>
-              {planGroups.map((g, i) => (
-                <button type="button" role="tab" id={`tab-${g.id}`} aria-controls={`plans-${g.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>{g.label}</button>
-              ))}
-            </div>
           </div>
-          {planGroups.map((g, i) => (
-            <div class="plans" id={`plans-${g.id}`} role="tabpanel" aria-labelledby={`tab-${g.id}`} style={`--cols:${g.plans.length}`} hidden={i !== 0}>
+          {planGroups.map((g) => (
+            <div class="plans-group" id={`plans-${g.id}`} role="group" aria-labelledby={`plans-title-${g.id}`}>
+            <h3 class="plans-group__title" id={`plans-title-${g.id}`}>{g.label}<small>{g.note}</small></h3>
+            <div class="plans" style={`--cols:${g.plans.length}`}>
               {g.plans.map((p) => (
                 <article class:list={['plan', { 'plan--popular': p.popular }]}>
                   {p.popular && <span class="plan__badge">Most popular</span>}
@@ -294,9 +294,11 @@ Equipment: Reefer · 43,000 lbs</pre>
                 </article>
               ))}
             </div>
+            {g.plans.length > 1 && <p class="plans-hint" aria-hidden="true">Swipe to see every plan →</p>}
+            </div>
           ))}
-          <p class="plans-hint" aria-hidden="true">Swipe to see every plan →</p>
           <p class="plans-note">Upgrade any time and pay the new plan's full price. A downgrade waits until the end of the period you already paid for.</p>
+          <p class="plans-contact">Questions before you choose? Write to <a href={`mailto:${contact.email}`}>{contact.email}</a> or message us on <a href={`https://t.me/${contact.telegram}`} rel="noopener">Telegram</a>.</p>
         </div>
       </section>
 
@@ -308,12 +310,13 @@ Equipment: Reefer · 43,000 lbs</pre>
           <h2 class="display">Your next call is the first test.</h2>
           <p class="download__lede">Install IlvolAI, sign up, and get 60 talk minutes a month on the free plan. Updates install themselves.</p>
           <div class="cta-row">
-            <a class="btn-dark" href={links.download}>
+            <a class="btn-dark" href={links.download} data-download>
               <WindowsLogo size={26} color="var(--accent-300)" />
-              <span class="btn-dl__text"><b>Download for Windows</b><small class="mono">IlvolAI {ilvolApp.version} installer</small></span>
+              <span class="btn-dl__text"><b>Download for Windows</b><small class="mono">IlvolAI <span data-version data-sep=" "></span>installer</small></span>
             </a>
             <MsStoreBadge />
           </div>
+          <SendLink />
           <div class="mono download__reqs">
             <span>Windows 10 or 11, 64-bit</span><span>Internet connection</span><span>Headset or mic</span><span>macOS: later</span>
           </div>
@@ -325,7 +328,7 @@ Equipment: Reefer · 43,000 lbs</pre>
         <div class="section-head"><span class="eyebrow">FAQ</span><h2 class="display">Before you install</h2></div>
         <div class="faq">
           {faqs.map((q) => (
-            <div class="faq__item"><h3>{q.q}</h3><p class="card-text">{q.a}</p></div>
+            <div class="faq__item"><h3>{q.q}</h3><p class="card-text">{q.a}</p>{q.more && <p class="faq__more"><a href={q.more.href}>{q.more.label}</a></p>}</div>
           ))}
         </div>
       </section>
@@ -335,31 +338,19 @@ Equipment: Reefer · 43,000 lbs</pre>
   </div>
 </Base>
 
-<script>
-  // Plan type tabs (For you / For teams), with arrow-key support per the ARIA tabs pattern.
-  const tablist = document.querySelector<HTMLElement>('[data-plan-tabs]');
-  if (tablist) {
-    const tabs = [...tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
-    const select = (tab: HTMLButtonElement) => {
-      for (const t of tabs) {
-        const on = t === tab;
-        t.setAttribute('aria-selected', String(on));
-        t.tabIndex = on ? 0 : -1;
-        const panel = document.getElementById(t.getAttribute('aria-controls')!);
-        if (panel) {
-          panel.hidden = !on;
-          if (on) panel.scrollLeft = 0;
-        }
-      }
-    };
-    tabs.forEach((tab, i) => {
-      tab.addEventListener('click', () => select(tab));
-      tab.addEventListener('keydown', (e) => {
-        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-        const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
-        select(next);
-        next.focus();
+<script define:vars={{ releaseManifest }}>
+  // Version label and installer link come from the newest published release (the
+  // same public answer the app's updater reads), so they cannot go stale or disagree.
+  // On any failure the buttons keep their fallback link and show no version.
+  fetch(releaseManifest, { headers: { accept: 'application/json' } })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (rel) {
+      if (!rel || !/^\d+\.\d+\.\d+$/.test(rel.version || '')) return;
+      var ok = typeof rel.url === 'string' && rel.url.indexOf('https://api.loyaltee.uz/') === 0;
+      document.querySelectorAll('[data-version]').forEach(function (el) {
+        el.textContent = 'v' + rel.version + (el.getAttribute('data-sep') || ' ');
       });
-    });
-  }
+      if (ok) document.querySelectorAll('[data-download]').forEach(function (a) { a.setAttribute('href', rel.url); });
+    })
+    .catch(function () {});
 </script>

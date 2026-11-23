@@ -1,5 +1,5 @@
 ---
-import { links } from '../config';
+import { links, contact } from '../config';
 
 interface Props { replay?: boolean }
 // The intro lives on the product page only, so only that page offers a replay.
@@ -17,6 +17,7 @@ const year = new Date().getFullYear();
           </div>
           <div class="foot__cols">
             <div class="foot__col"><b>Product</b><a href={`${base}#features`}>Features</a><a href={`${base}#plans`}>Plans</a><a href={links.guides}>Guides</a><a href={`${base}#download`}>Download</a></div>
+            <div class="foot__col" id="contact"><b>Contact</b><a href={`mailto:${contact.email}`}>{contact.email}</a><a href={`https://t.me/${contact.telegram}`} rel="noopener">Telegram @{contact.telegram}</a></div>
             <div class="foot__col"><b>Company</b><a href={`${base}#faq`}>FAQ</a><a href={links.privacy}>Privacy</a><a href={links.terms}>Terms</a></div>
           </div>
         </div>
