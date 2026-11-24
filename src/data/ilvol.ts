@@ -64,7 +64,8 @@ export const team = [
   { i: 'AK', bg: 'var(--accent-500)' },
   { i: 'DS', bg: 'var(--accent-300)' },
   { i: 'MT', bg: 'var(--accent-400)' },
-  { i: '+4', bg: 'var(--accent-600)' },
+  // The darkest swatch takes light text: accent-ink on accent-600 is only 3.2:1.
+  { i: '+4', bg: 'var(--accent-600)', fg: 'var(--fg)' },
 ];
 
 export const accents = [

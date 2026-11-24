@@ -231,7 +231,7 @@ Equipment: Reefer · 43,000 lbs</pre>
             <p>Every load you captured, searchable, with stats on lanes, equipment and rates.</p>
           </article>
           <article class="glass feat-card span2">
-            <div class="avatars" aria-hidden="true">{team.map((t) => <span style={`background:${t.bg}`}>{t.i}</span>)}</div>
+            <div class="avatars" aria-hidden="true">{team.map((t) => <span style={`background:${t.bg}${'fg' in t ? `;color:${t.fg}` : ''}`}>{t.i}</span>)}</div>
             <h3>Team console</h3>
             <p>Add dispatchers, share one pool of talk minutes, and see who captured what.</p>
           </article>
