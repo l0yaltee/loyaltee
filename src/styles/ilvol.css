@@ -107,8 +107,9 @@ html[data-intro='off'] .intro { display: none; }
 /* The label column has one fixed width per list (as the app's .lf-row-label), so every value starts at the same x.
    A label that does not fit ends in an ellipsis; it never wraps. */
 .frow__label { flex: none; width: clamp(96px, 30%, 160px); font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.frow__value { flex: 1 0.001 auto; min-width: 0; font-size: 15px; font-weight: 600; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.frow__conf { margin-left: 0; }
+/* The value takes whatever the row has left and ends in an ellipsis; the pill and check never move. */
+.frow__value { flex: 1 1 0; min-width: 0; font-size: 15px; font-weight: 600; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.frow__conf { flex: none; margin-left: 0; }
 .frow__check { flex: none; width: 18px; height: 18px; border-radius: 999px; display: grid; place-items: center; background: var(--accent-500); color: var(--accent-ink); }
 .frow__check svg { width: 12px; height: 12px; }
 /* Low confidence: a short rounded bar inset from the row's top and bottom. The row keeps its colour. */
@@ -395,11 +396,15 @@ html[data-intro='off'] .intro { display: none; }
   .conf-row { gap: 32px; }
   /* Phone: tighter row padding and gaps so the fixed label column and the longest value both fit. */
   .frow { gap: 8px; }
-  .mock .frow { padding-inline: 10px 12px; gap: 6px; }
-  .mock .frow__label { width: 104px; }
-  .frows--lg .frow { min-height: 52px; padding: 8px 14px; gap: 8px; }
-  .frows--lg .frow__label { width: 120px; font-size: 13px; }
-  .frows--lg .frow__value { font-size: 15px; }
+  /* The label column gives way before the value: a label may end in an ellipsis, a value only when nothing else is left. */
+  .mock .frow { padding-inline: 10px; gap: 5px; }
+  .mock .frow__label { width: 96px; }
+  .mock .frow .conf { padding-inline: 6px; }
+  .frows--lg .frow { min-height: 52px; padding: 8px 12px; gap: 6px; }
+  .frows--lg .frow__label { width: 104px; font-size: 13px; }
+  /* This list is read field by field, so a long value (the flagged notes row) takes a second line instead of an ellipsis. */
+  .frows--lg .frow__value { font-size: 14px; line-height: 1.3; white-space: normal; overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
+  .frows--lg .frow .conf { padding-inline: 6px; }
 
   /* Plans become a swipeable row with the next card peeking in. */
   .plans-section { padding-block: 72px; }
