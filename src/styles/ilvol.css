@@ -95,23 +95,53 @@ html[data-intro='off'] .intro { display: none; }
 /* The hero cards are 78-92% opaque, so the blur is invisible; it only costs frames while the block animates. */
 .hero .glass { backdrop-filter: none; -webkit-backdrop-filter: none; }
 
-/* ---------- Field cards + confidence ---------- */
-.fc { display: flex; align-items: center; gap: 14px; border-radius: 16px; border: 1px solid var(--border); background: rgba(30, 41, 59, 0.4); padding: 12px 14px; min-width: 0; }
-.fc.filled { border-color: rgba(var(--accent-rgb), 0.32); background: rgba(var(--accent-rgb), 0.07); }
-.fc.review { border-color: rgba(245, 158, 11, 0.45); background: rgba(245, 158, 11, 0.05); }
-.fc-ico { width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; flex: none; background: rgba(var(--accent-rgb), 0.15); color: var(--accent-400); }
-.fc.review .fc-ico { background: rgba(245, 158, 11, 0.14); color: #fcd34d; }
-.fc-body { min-width: 0; flex: 1; }
-.fc-lab { font-size: 10.5px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
-.fc-val { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* ---------- Field rows + confidence ----------
+   The app's main-window field list (#168, loadform src/app/cards.css "Field rows"):
+   one card for every filled field, a row each, no icons. Empty fields fold under
+   "+ N more fields". Under 70% a row gets an amber bar at its left edge. Sizes are
+   the app's (rem at 16px); the hero mock is a smaller copy, the confidence list a
+   larger one. Classes are .frow*, so nothing here touches loyaltee.css's .fc. */
+.frows { list-style: none; margin: 0; padding: 4px 0; min-width: 0; border-radius: 12px; border: 1px solid rgba(var(--accent-rgb), 0.3); background: rgba(var(--accent-rgb), 0.06); }
+.frow { position: relative; display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 16px; box-sizing: border-box; border-top: 1px solid var(--border); animation: frow-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.frow:first-child { border-top: 0; }
+/* When the row is short of room the label gives way first, the value only after it. */
+.frow__label { flex: 0 1 clamp(96px, 30%, 160px); min-width: 64px; font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.frow__value { flex: 1 0.001 auto; min-width: 0; font-size: 15px; font-weight: 600; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.frow__conf { margin-left: 0; }
+.frow__check { flex: none; width: 18px; height: 18px; border-radius: 999px; display: grid; place-items: center; background: var(--accent-500); color: var(--accent-ink); }
+.frow__check svg { width: 12px; height: 12px; }
+/* Low confidence: a short rounded bar inset from the row's top and bottom. The row keeps its colour. */
+.frow__flag { position: absolute; left: 0; top: 10px; bottom: 10px; width: 10px; }
+.frow__flag::before { content: ''; position: absolute; left: 5px; top: 0; bottom: 0; width: 3px; border-radius: 999px; background: rgba(245, 158, 11, 0.8); }
+/* Static stand-in for the app's dashed "+ N more fields" button. */
+.frows-more { display: inline-flex; align-items: center; min-height: 36px; box-sizing: border-box; margin-top: 8px; padding: 4px 12px; border-radius: 12px; border: 1px dashed rgba(255, 255, 255, 0.14); font-size: 13px; font-weight: 500; color: var(--muted); }
+@keyframes frow-in { from { transform: translateY(10px) scale(0.98); opacity: 0; } }
+
+/* Hero mock: the same list, scaled down with the rest of the mock. Rows rise in once the intro curtain lifts. */
+.mock .frow { min-height: 34px; padding: 4px 14px; animation-delay: calc(var(--intro) + 0.25s + var(--i, 0) * 0.07s); }
+.mock .frow__label { font-size: 12px; }
+.mock .frow__value { font-size: 14px; }
+.mock .frow__check { width: 16px; height: 16px; }
+.mock .frow__check svg { width: 10px; height: 10px; }
+.mock .frows-more { min-height: 28px; margin-top: 8px; padding: 2px 10px; border-radius: 10px; font-size: 12px; }
+
+/* Confidence section: larger, and the review bar is the point, so it is wider, solid and lit. */
+.frows--lg { padding: 6px 0; border-radius: 16px; }
+.frows--lg .frow { min-height: 56px; padding: 8px 20px; gap: 12px; animation-delay: calc(var(--i, 0) * 0.08s); }
+.frows--lg .frow__label { flex-basis: clamp(110px, 32%, 180px); font-size: 14px; }
+.frows--lg .frow__value { font-size: 16px; }
+.frows--lg .conf { font-size: 11px; padding: 3px 10px; }
+.frows--lg .frow__check { width: 20px; height: 20px; }
+.frows--lg .frow__check svg { width: 13px; height: 13px; }
+.frows--lg .frow__flag { top: 12px; bottom: 12px; width: 12px; }
+.frows--lg .frow__flag::before { left: 5px; width: 4px; background: #f59e0b; box-shadow: 0 0 10px rgba(245, 158, 11, 0.6); }
+/* Set by the section's script until the list scrolls into view. */
+.frows[data-wait] .frow { animation: none; opacity: 0; }
+
 .conf { font: 500 10px/14px var(--mono); padding: 2px 8px; border-radius: 999px; flex: none; margin-left: auto; }
 .hi { background: rgba(var(--accent-rgb), 0.2); color: var(--accent-300); }
 .med { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
 .lo { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
-.fc--lg { padding: 16px 18px; }
-.fc--lg .fc-ico { width: 42px; height: 42px; }
-.fc--lg .fc-val { font-size: 16px; }
-.fc--lg .conf { font-size: 11px; padding: 3px 10px; }
 
 /* ---------- Orb ---------- */
 .orb { position: relative; width: 112px; height: 112px; border-radius: 999px; display: grid; place-items: center; flex: none; }
@@ -152,7 +182,6 @@ html[data-intro='off'] .intro { display: none; }
 .mock__transcript { font-size: 14px; line-height: 1.65; color: rgba(248, 250, 252, 0.86); min-width: 0; }
 .mock__transcript b { color: var(--fg); }
 .caret { display: inline-block; width: 2px; height: 14px; background: var(--accent-500); vertical-align: middle; margin-left: 3px; }
-.mock__fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .driver-msg { position: absolute; right: -22px; bottom: -46px; width: 258px; box-sizing: border-box; border-radius: 20px; padding: 12px 14px; background: rgba(15, 23, 42, 0.92); }
 .driver-msg__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 12px; font-weight: 600; }
 .driver-msg__copied { font-size: 11px; font-weight: 600; background: var(--accent-500); color: var(--accent-ink); border-radius: 8px; padding: 4px 8px; }
@@ -194,8 +223,13 @@ html[data-intro='off'] .intro { display: none; }
 .chip--solid { background: var(--accent-500); color: var(--accent-ink); }
 .field-names { display: flex; flex-wrap: wrap; gap: 6px; font-size: 12px; color: var(--soft); }
 .field-names span { border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 4px 9px; }
-.orbit { display: flex; align-items: center; gap: 10px; }
-.orbit i { display: block; border-radius: 99px; }
+/* The floating widget: a mic at rest, its four hover buttons beside it (load details, Settings, open the app, close). */
+.wmic { display: flex; align-items: center; gap: 16px; }
+.wmic__mic { position: relative; width: 44px; height: 44px; flex: none; border-radius: 999px; display: grid; place-items: center; background: radial-gradient(circle at 50% 35%, #343848 0%, #262935 70%); border: 1px solid rgba(255, 255, 255, 0.06); color: var(--accent-400); box-shadow: 0 0 0 6px rgba(var(--accent-rgb), 0.12); }
+.wmic__mic svg { width: 20px; height: 20px; }
+.wmic__btns { display: flex; gap: 6px; }
+.wmic__btn { width: 28px; height: 28px; border-radius: 999px; display: grid; place-items: center; border: 1px solid var(--border); background: rgba(15, 23, 42, 0.9); color: rgba(226, 232, 240, 0.85); }
+.wmic__btn svg { width: 14px; height: 14px; }
 .mini-chart { display: flex; align-items: flex-end; gap: 6px; height: 44px; }
 .mini-chart i { display: block; width: 14px; border-radius: 4px; }
 .avatars { display: flex; align-items: center; }
@@ -347,7 +381,6 @@ html[data-intro='off'] .intro { display: none; }
   .orb-core { width: 66px; height: 66px; gap: 2px; }
   .orb-core .bar { width: 2.5px; max-height: 30px; }
   .mock__transcript { font-size: 13px; }
-  .mock__fields { grid-template-columns: minmax(0, 1fr); }
   .driver-msg { margin-top: -10px; width: 92%; }
 
   .works__list { gap: 6px 24px; font-size: 22px; }
@@ -359,9 +392,12 @@ html[data-intro='off'] .intro { display: none; }
   .feat-card--big { padding: 24px; }
   .confidence { padding-block: 64px; }
   .conf-row { gap: 32px; }
-  .fc--lg { padding: 12px 14px; }
-  .fc--lg .fc-ico { width: 36px; height: 36px; }
-  .fc--lg .fc-val { font-size: 15px; }
+  /* Phone: a long label wraps onto a second line instead of squeezing the value. */
+  .frow { gap: 8px; }
+  .frow__label { white-space: normal; line-height: 1.25; }
+  .frows--lg .frow { min-height: 52px; padding: 8px 16px; gap: 10px; }
+  .frows--lg .frow__label { font-size: 13px; }
+  .frows--lg .frow__value { font-size: 15px; }
 
   /* Plans become a swipeable row with the next card peeking in. */
   .plans-section { padding-block: 72px; }
@@ -382,7 +418,7 @@ html[data-intro='off'] .intro { display: none; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .intro { display: none; }
-  .bar, .orb-glow, .livedot { animation: none; }
+  .bar, .orb-glow, .livedot, .frow { animation: none; }
 }
 
 /* ---------- Guides ---------- */
