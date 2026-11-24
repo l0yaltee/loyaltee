@@ -29,7 +29,7 @@ export const heroFields = [
   field('Delivery Location', 'Tulsa, OK', 96),
   field('Equipment Type', 'Reefer', 99),
   field('Weight', '43,000 lbs', 95),
-  field('Rate', '$2.80/mile ($2,100)', 89),
+  field('Rate', '$2.80/mi · $2,100', 89),
 ];
 
 export const confFields = [

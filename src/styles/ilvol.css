@@ -104,8 +104,9 @@ html[data-intro='off'] .intro { display: none; }
 .frows { list-style: none; margin: 0; padding: 4px 0; min-width: 0; border-radius: 12px; border: 1px solid rgba(var(--accent-rgb), 0.3); background: rgba(var(--accent-rgb), 0.06); }
 .frow { position: relative; display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 16px; box-sizing: border-box; border-top: 1px solid var(--border); animation: frow-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .frow:first-child { border-top: 0; }
-/* When the row is short of room the label gives way first, the value only after it. */
-.frow__label { flex: 0 1 clamp(96px, 30%, 160px); min-width: 64px; font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* The label column has one fixed width per list (as the app's .lf-row-label), so every value starts at the same x.
+   A label that does not fit ends in an ellipsis; it never wraps. */
+.frow__label { flex: none; width: clamp(96px, 30%, 160px); font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .frow__value { flex: 1 0.001 auto; min-width: 0; font-size: 15px; font-weight: 600; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .frow__conf { margin-left: 0; }
 .frow__check { flex: none; width: 18px; height: 18px; border-radius: 999px; display: grid; place-items: center; background: var(--accent-500); color: var(--accent-ink); }
@@ -128,7 +129,7 @@ html[data-intro='off'] .intro { display: none; }
 /* Confidence section: larger, and the review bar is the point, so it is wider, solid and lit. */
 .frows--lg { padding: 6px 0; border-radius: 16px; }
 .frows--lg .frow { min-height: 56px; padding: 8px 20px; gap: 12px; animation-delay: calc(var(--i, 0) * 0.08s); }
-.frows--lg .frow__label { flex-basis: clamp(110px, 32%, 180px); font-size: 14px; }
+.frows--lg .frow__label { width: clamp(110px, 32%, 180px); font-size: 14px; }
 .frows--lg .frow__value { font-size: 16px; }
 .frows--lg .conf { font-size: 11px; padding: 3px 10px; }
 .frows--lg .frow__check { width: 20px; height: 20px; }
@@ -392,11 +393,12 @@ html[data-intro='off'] .intro { display: none; }
   .feat-card--big { padding: 24px; }
   .confidence { padding-block: 64px; }
   .conf-row { gap: 32px; }
-  /* Phone: a long label wraps onto a second line instead of squeezing the value. */
+  /* Phone: tighter row padding and gaps so the fixed label column and the longest value both fit. */
   .frow { gap: 8px; }
-  .frow__label { white-space: normal; line-height: 1.25; }
-  .frows--lg .frow { min-height: 52px; padding: 8px 16px; gap: 10px; }
-  .frows--lg .frow__label { font-size: 13px; }
+  .mock .frow { padding-inline: 10px 12px; gap: 6px; }
+  .mock .frow__label { width: 104px; }
+  .frows--lg .frow { min-height: 52px; padding: 8px 14px; gap: 8px; }
+  .frows--lg .frow__label { width: 120px; font-size: 13px; }
   .frows--lg .frow__value { font-size: 15px; }
 
   /* Plans become a swipeable row with the next card peeking in. */
