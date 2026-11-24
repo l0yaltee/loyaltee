@@ -2,55 +2,47 @@
 
 import { links } from '../config';
 
-const icon = {
-  pin: 'M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0ZM12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z',
-  flag: 'M4 22V4s1-1 4-1 5 2 8 2 4-1 4-1v11s-1 1-4 1-5-2-8-2-4 1-4 1',
-  truck: 'M10 17h4V5H2v12h3M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5v8h1M7.5 20a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM17.5 20a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z',
-  dollar: 'M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6',
-  cal: 'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z',
-  weight: 'M12 7a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6.5 7h11l3 14h-17Z',
-  note: 'M15.5 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5ZM15 3v6h6',
-};
-
 export interface Field {
   label: string;
   value: string;
   pct: string;
-  icon: string;
   tier: 'hi' | 'med' | 'lo';
   review: boolean;
 }
 
-// Same thresholds as the app: 80+ solid, 50–79 check, under 50 ask again; under 70 is flagged.
-const field = (label: string, value: string, c: number, path: string): Field => ({
-  label: c < 70 ? `${label} · Needs review` : label,
+// Same thresholds as the app: 80+ solid, 50–79 check, under 50 ask again
+// (confidenceClass in src/app/lib/format.ts); under 70 gets the amber review bar
+// (needsReview in src/services/templates.js). Labels are the app's FIELDS labels.
+const field = (label: string, value: string, c: number): Field => ({
+  label,
   value,
   pct: `${c}%`,
-  icon: path,
   tier: c >= 80 ? 'hi' : c >= 50 ? 'med' : 'lo',
   review: c < 70,
 });
 
+// The main window lists filled fields in lane order (LANE_ORDER in the app's
+// FieldCards.tsx): pickup, delivery, freight, then money. Empty ones fold away.
 export const heroFields = [
-  field('Pickup', 'Amarillo, TX', 98, icon.pin),
-  field('Pickup date/time', 'Tue 6/24, 8:00 AM', 94, icon.cal),
-  field('Delivery', 'Tulsa, OK', 96, icon.flag),
-  field('Equipment', 'Reefer', 99, icon.truck),
-  field('Rate', '$2.80/mile ($2,100)', 89, icon.dollar),
-  field('Weight', '43,000 lbs', 95, icon.weight),
+  field('Pickup Location', 'Amarillo, TX', 98),
+  field('Pickup Date/Time', 'Tue 6/24, 8:00 AM', 94),
+  field('Delivery Location', 'Tulsa, OK', 96),
+  field('Equipment Type', 'Reefer', 99),
+  field('Weight', '43,000 lbs', 95),
+  field('Rate', '$2.80/mi · $2,100', 89),
 ];
 
 export const confFields = [
-  field('Delivery date/time', 'Thu 6/26, 6:00 AM', 91, icon.cal),
-  field('Commodity', 'Frozen chicken', 87, icon.note),
-  field('Additional notes', 'Lumpers required, no touch', 64, icon.note),
-  field('Delivery window', 'FCFS 8am–5pm', 41, icon.cal),
+  field('Delivery Date/Time', 'Thu 6/26, 6:00 AM', 91),
+  field('Delivery Window', 'FCFS 8am–5pm', 41),
+  field('Commodity', 'Frozen chicken', 87),
+  field('Additional Notes', 'Lumpers required, no touch', 64),
 ];
 
 export const steps = [
   { n: '01', tag: 'Start capture', title: 'Pick up the broker call', body: 'Hit the orb before or during the call. Choose your mic, or system audio to hear the broker straight from your dialer.' },
   { n: '02', tag: 'Live extraction', title: 'Watch the load fill in', body: 'The transcript streams as they talk and the fields fill themselves: lanes, dates, windows, rate, weight, equipment, notes.' },
-  { n: '03', tag: 'Copy for driver', title: 'Send it in one paste', body: 'Fix anything flagged, press Copy for driver, and paste a clean load message into Telegram, WhatsApp or SMS.' },
+  { n: '03', tag: 'Copy for driver', title: 'Send it in one paste', body: 'Fix anything flagged, press Copy on the driver message, and paste a clean load message into Telegram, WhatsApp or SMS.' },
 ];
 
 // Every field the app fills in and lets you edit: the 18 in FIELD_DEFS of the app
@@ -65,12 +57,15 @@ export const fieldNames = [
   'trailer instructions', 'additional notes',
 ];
 export const fieldCount = fieldNames.length;
+/** The hero mock's fold: every field the call has not filled yet ("+ N more fields"). */
+export const heroMoreCount = fieldCount - heroFields.length;
 
 export const team = [
   { i: 'AK', bg: 'var(--accent-500)' },
   { i: 'DS', bg: 'var(--accent-300)' },
   { i: 'MT', bg: 'var(--accent-400)' },
-  { i: '+4', bg: 'var(--accent-600)' },
+  // The darkest swatch takes light text: accent-ink on accent-600 is only 3.2:1.
+  { i: '+4', bg: 'var(--accent-600)', fg: 'var(--fg)' },
 ];
 
 export const accents = [
